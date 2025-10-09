@@ -1,2 +1,2 @@
-# These are comments and codes to suty "C Programming - A Modern Approach"
+# These are comments and codes to sutdy "C Programming - A Modern Approach"
 
