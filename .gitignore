@@ -14,3 +14,7 @@
 # .gitignore
 !*.gitignore
 
+# .txt .mdも無視しない
+!*.txt
+!*.md
+
