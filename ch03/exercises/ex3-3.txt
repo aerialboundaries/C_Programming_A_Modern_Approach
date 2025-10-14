@@ -1,0 +1,37 @@
+C Programming A modern Approach ex303
+
+For each of the following pairs of scanf format strings, indicate whether or not the tow strings are equivalent.  If they're not, show how they can be distinguished.
+
+(a) "%d"       " versus " %d"
+(b) "%d-%d-%d"   versus "%d -%d -%d"
+(c) "%f"         versus "%f "
+(d) "%f,%f"      versus "%f, %f"
+
+My Answer:
+(a) Equivalent
+(b) Not equivalent.  should be "%d-%d-%d"
+(c) Not equivalent.  should be "%f"
+(d) Equivalent.
+了解しました。日本語で回答します。
+
+💻 scanf フォーマット文字列の等価性
+あなたの回答は、C言語の scanf の空白文字処理ルールを理解する上で非常に優れていますが、特に(b)の等価性の判断に修正が必要です。
+
+scanf の動作を理解する上での重要なルールは以下の2点です。
+
+変換指定子（%d, %f など）は、常にその直前の任意の数の空白文字（スペース、タブ、改行）をスキップします。
+
+フォーマット文字列内のリテラル空白文字（スペース  ）は、入力ストリームの任意の数の空白文字（0個以上）をスキップします。
+
+✅ 回答の採点と解説
+質問	String 1 vs String 2	あなたの回答	正しい回答	解説
+(a)	"%d" vs " %d"	Equivalent	Equivalent	String 2の先頭の空白は冗長です。%d が自動で入力の先頭の空白をスキップするため、両者は同じ動作をします。
+(b)	"%d-%d-%d" vs "%d -%d - %d"	Not equivalent	Equivalent	修正が必要です。 String 2のハイフン前後の空白（例: -）は、入力のハイフン前後の任意の空白をスキップするよう指示しますが、String 1でも変換指定子（%d）がハイフン前の空白を処理するため、どちらも同じ入力パターン（例: 1-2-3、1 - 2 - 3）を処理できます。動作は等価です。
+(c)	"%f" vs "%f "	Not equivalent	Not Equivalent	正解です。 String 1 ("%f") は数値の読み取り後、すぐに終了します。String 2 ("%f ") は数値読み取り後に末尾のリテラル空白があるため、入力ストリームの任意の空白（改行などを含む）を待ち続けようとする点で動作が異なります。
+(d)	"%f,%f" vs "%f, %f"	Equivalent	Equivalent	正解です。 String 2のコンマ後の空白は、入力のコンマ後の任意の空白をスキップするよう指示しますが、直後の %f が既にその処理を行うため、空白は実質的に冗長であり、動作は等価です。
+
+Google スプレッドシートにエクスポート
+最終的な結論
+あなたの回答は (a), (c), (d) の判断は正しく、(b) の判断のみが異なります。
+
+(b) Not equivalent → Equivalent に修正が必要です。

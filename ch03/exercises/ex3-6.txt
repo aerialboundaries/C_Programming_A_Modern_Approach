@@ -1,0 +1,4 @@
+/* C Programming A Modern Approach ex3-5.txt */
+
+Show how to modify the addfrac.c prgram of Sction 3.2 so that the user is allowed o enter fractions that containspaces before and after each / character.
+
