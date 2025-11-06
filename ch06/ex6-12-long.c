@@ -22,19 +22,19 @@
 #include <stdio.h>
 
 int main(void) {
-  long long d, n;
+  int d, n;
 
   printf("Enter a number: ");
-  scanf("%lld", &n);
+  scanf("%d", &n);
 
   for (d = 2; d * d <= n; d++) {
     if (n % d == 0)
       break;
   }
   if (d * d <= n)
-    printf("%lld is divisible by %lld\n", n, d);
+    printf("%d is divisible by %d\n", n, d);
   else
-    printf("%lld is prime.\n", n);
+    printf("%d is prime.\n", n);
 
   return 0;
 }
