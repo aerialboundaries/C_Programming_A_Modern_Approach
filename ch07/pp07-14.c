@@ -34,7 +34,18 @@
 
 int main(void) {
 
-  float x, x,
+  double x, y = 1, temp_y, xdy, ayxy;
+  printf("Enter a positive number: ");
+  scanf("%lf", &x);
 
-      return 0;
+  do {
+    xdy = x / y;
+    ayxy = (y + xdy) / 2;
+    temp_y = y;
+    y = ayxy;
+  } while (fabs(temp_y - y) > (temp_y * .00001));
+
+  printf("Square root: %.5lf\n", y);
+
+  return 0;
 }
