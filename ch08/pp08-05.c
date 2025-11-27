@@ -13,7 +13,7 @@
 
 int main(void) {
 
-  int i, low_rate, num_years, year;
+  int i, low_rate, month, num_years, year;
   double value[5];
 
   printf("Enter interest rate: ");
@@ -31,7 +31,9 @@ int main(void) {
   for (year = 1; year <= num_years; year++) {
     printf("%3d    ", year);
     for (i = 0; i < NUM_RATES; i++) {
-      value[i] += (low_rate + i) / 100.0 * value[i];
+      for (month = 1; month <= 12; month++) {
+        value[i] += ((double)low_rate / 12 + i) / 100.0 * value[i];
+      }
       printf("%7.2f", value[i]);
     }
     printf("\n");
