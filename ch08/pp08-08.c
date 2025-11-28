@@ -33,7 +33,9 @@ int main(void) {
   //   }
 
   for (i = 0; i < R; i++) {
-    row_total[i] += a[i][j];
+    for (j = 0; j < C; j++) {
+      row_total[i] += a[i][j];
+    }
     printf("Student %d:\n", i + 1);
     printf("Total Score: %d Average score %4.2f\n", row_total[i],
            (double)row_total[i] / C);
