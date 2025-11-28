@@ -28,24 +28,26 @@ int main(void) {
     printf("Enter row %d: ", i + 1);
     for (j = 0; j < C; j++) {
       scanf(" %d", &a[i][j]);
+      row_total[i] += a[i][j];
+      col_total[j] += a[i][j];
     }
   }
 
-  for (i = 0; i < 5; i++) {
-    for (j = 0; j < 5; j++) {
-      printf("%d ", a[i][j]);
-    }
-    printf("\n");
-  }
+  //   for (i = 0; i < 5; i++) {
+  //     for (j = 0; j < 5; j++) {
+  //       printf("%d ", a[i][j]);
+  //     }
+  //     printf("\n");
+  //   }
 
   printf("Row totals: ");
   for (i = 0; i < 5; i++)
-    printf(" %d", row_total[i] += row_total[i]);
+    printf(" %d", row_total[i]);
   printf("\n");
 
   printf("Column totals: ");
   for (j = 0; j < 5; j++)
-    printf(" %d", col_total[j] += col_total[j]);
+    printf(" %d", col_total[j]);
   printf("\n");
 
   return 0;
