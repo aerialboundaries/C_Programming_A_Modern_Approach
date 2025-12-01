@@ -52,4 +52,102 @@
 #define R 10
 #define C 10
 
-int main(void) { return 0; }
+int main(void) {
+
+  int r, c;
+  char ch, field[R][C];
+  srand((unsigned)time(NULL));
+
+  // Initialize the field
+  for (r = 0; r < R; r++) {
+    for (c = 0; c < C; c++)
+      field[r][c] = '.';
+  }
+  r = 0, c = 0;
+  field[r][c] = 'A';
+
+  // Maim Logic
+  for (ch = 'B'; ch <= 'Z'; ch++) {
+    if ((r > 0 && (field[r - 1][c] != '.') &&
+         (r < R - 1 && (field[r + 1][c] != '.') &&
+          (c > 0 && (field[r][c - 1] != '.') &&
+           (c < C - 1 && (field[r][c + 1] != '.')))))) {
+      break; // nowhere to go
+    } else {
+      switch (rand() % 4) {
+      case 0:
+        if (r > 0 && field[r - 1][c] == '.') {
+          field[--r][c] = ch;
+          break; // Up
+        } else if ((r < R - 1 && (field[r + 1][c] == '.'))) {
+          field[++r][c] = ch;
+          break;
+        } else if ((c > 0 && (field[r][c - 1] == '.'))) {
+          field[r][--c] = ch;
+          break;
+        } else if ((c < C - 1 && (field[r][c + 1] == '.'))) {
+          field[r][++c] = ch;
+          break;
+        }
+        break;
+
+      case 1:
+        if ((r < R - 1 && (field[r + 1][c] == '.'))) {
+          field[++r][c] = ch;
+          break; // Down
+        } else if (r > 0 && field[r - 1][c] == '.') {
+          field[--r][c] = ch;
+          break; // Up
+        } else if ((c > 0 && (field[r][c - 1] == '.'))) {
+          field[r][--c] = ch;
+          break; // Left
+        } else if ((c < C - 1 && (field[r][c + 1] == '.'))) {
+          field[r][++c] = ch;
+          break; // Right
+        }
+        break;
+
+      case 2:
+        if ((c > 0 && (field[r][c - 1] == '.'))) {
+          field[r][--c] = ch;
+          break; // Left
+        } else if (r > 0 && field[r - 1][c] == '.') {
+          field[--r][c] = ch;
+          break; // Up
+        } else if ((r < R - 1 && (field[r + 1][c] == '.'))) {
+          field[++r][c] = ch;
+          break; // Down
+        } else if ((c < C - 1 && (field[r][c + 1] == '.'))) {
+          field[r][++c] = ch;
+          break; // Right
+        }
+        break;
+
+      case 3:
+        if ((c < C - 1 && (field[r][c + 1] == '.'))) {
+          field[r][++c] = ch;
+          break; // Right
+        } else if ((c > 0 && (field[r][c - 1] == '.'))) {
+          field[r][--c] = ch;
+          break; // Left
+        } else if (r > 0 && field[r - 1][c] == '.') {
+          field[--r][c] = ch;
+          break; // Up
+        } else if ((r < R - 1 && (field[r + 1][c] == '.'))) {
+          field[++r][c] = ch;
+          break; // Down
+        }
+        break;
+      }
+    }
+  }
+
+  // Print the field
+  for (r = 0; r < R; r++) {
+    for (c = 0; c < C; c++)
+      printf("%c", field[r][c]);
+    printf("\n");
+  }
+
+  return 0;
+}
