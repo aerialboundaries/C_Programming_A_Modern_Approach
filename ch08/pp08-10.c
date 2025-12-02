@@ -69,32 +69,28 @@ int main(void) {
     }
   }
 
-  switch (closest_flt) {
+  int dep_time, dep_minute, arr_time, arr_minute;
+  dep_time = departure[closest_flt] / 60;
+  dep_minute = departure[closest_flt] % 60;
+  arr_time = arrival[closest_flt] / 60;
+  arr_minute = arrival[closest_flt] % 60;
 
-  case 0:
-    printf("Closest departure time is 8:00 a.m., arriving at 10:16 a.m.\n");
-    break;
-  case 1:
-    printf("Closest departure time is 9:43 a.m., arriving at 11:52 a.m.\n");
-    break;
-  case 2:
-    printf("Closest departure time is 11:19 a.m., arriving at 1:31 p.m.\n");
-    break;
-  case 3:
-    printf("Closest departure time is 12:47 p.m., arriving at 3:00 p.m.\n");
-    break;
-  case 4:
-    printf("Closest departure time is 2:00 p.m., arriving at 4:08 p.m.\n");
-    break;
-  case 5:
-    printf("Closest departure time is 3:45 p.m., arriving at 5:55 p.m.\n");
-    break;
-  case 6:
-    printf("Closest departure time is 7:00 p.m., arriving at 9:20 p.m.\n");
-    break;
-  case 7:
-    printf("Closest departure time is 9:45 p.m., arriving at 11:58 p.m.\n");
-    break;
+  printf("Closest departure time is ");
+  if (dep_time == 12) {
+    printf("%d:%02d p.m., ", dep_time, dep_minute);
+  } else if (dep_time < 12) {
+    printf("%d:%02d a.m., ", dep_time, dep_minute);
+  } else {
+    printf("%d:%02d p.m., ", dep_time - 12, dep_minute);
+  }
+
+  printf("arriving at ");
+  if (arr_time == 12) {
+    printf("%d:%02d p.m., ", arr_time, arr_minute);
+  } else if (arr_time < 12) {
+    printf("%d:%02d a.m.\n", arr_time, arr_minute);
+  } else {
+    printf("%d:%02d p.m.\n ", arr_time - 12, arr_minute);
   }
 
   return 0;
