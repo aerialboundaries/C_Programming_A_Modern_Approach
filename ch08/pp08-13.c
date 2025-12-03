@@ -27,42 +27,101 @@
  * name, between the first and last names, and after the last
  * name.*/
 
+// #include <stdio.h>
+//
+// int main(void) {
+//
+//   int ch; // read input
+//   int i;  // Store the initial
+//   char last_name[20] = {0};
+//
+//   printf("Enter a first and last name: ");
+//
+//   while ((ch = getchar()) == ' ')
+//     /* skip initial spaces */;
+//
+//   i = ch; // Store initial
+//
+//   while ((ch = getchar()) != ' ') {
+//     if (ch == '\n')
+//       break;
+//   }
+//   /* skip the rest of first name */;
+//
+//   while ((ch = getchar()) == ' ')
+//     /* skip spaces between first and last name */;
+//   last_name[0] = ch; // put first letter of last name
+//
+//   for (int n = 1; n < 20; n++) {
+//     if ((ch = getchar()) != ' ' || (ch = getchar()) != '\n') {
+//       last_name[n] = ch;
+//       if (last_name[n] == '\n')
+//         break;
+//     }
+//   }
+//
+//   printf("You entered the name: ");
+//   for (int m = 0; m < 20; m++)
+//     if (last_name[m] != '\n')
+//       printf("%c", last_name[m]);
+//   printf(", %c.\n", i);
+//
+//   return 0;
+// }
+
+#include <ctype.h> // for isspace
 #include <stdio.h>
 
-int main(void) {
+#define LAST_NAME_MAX 20
 
-  int ch; // read input
-  int i;  // Store the initial
-  char last_name[20];
+int main(void) {
+  int ch;
+  char first_initial = 0;            // for initial of name
+  char last_name[LAST_NAME_MAX + 1]; // to put '\0', +1
+  int last_name_len = 0;             // current last name length
 
   printf("Enter a first and last name: ");
 
-  while ((ch = getchar()) == ' ')
-    /* skip initial spaces */;
+  while ((ch = getchar()) != EOF && isspace(ch))
+    /* skip first spaces */;
 
-  i = ch; // Store initial
-
-  while ((ch = getchar()) != ' ') {
-    if (ch == '\n')
-      break;
+  if (ch != EOF && ch != '\n') {
+    first_initial = ch;
+  } else {
+    printf("\nError: No name entered.\n");
+    return 1;
   }
-  /* skip the rest of first name */;
 
-  while ((ch = getchar()) == ' ')
-    /* skip spaces between first and last name */;
-  last_name[0] = ch; // put first letter of last name
+  // skip the rest of first name
+  while ((ch = getchar()) != EOF && ch != '\n' && isspace(ch))
+    ;
 
-  do {
-    if (ch == '\n' || ch == ' ')
-      break;
-    for (int n = 0; n < 20; n++)
-      last_name[n] = ch;
-  } while ((ch = getchar()));
+  // skip space between name and last name
+  while (ch != EOF && ch != '\n' && !isspace(ch)) {
+    ch = getchar();
+  }
 
-  printf("You entered the name: ");
-  for (int m = 0; m < 20; m++)
-    printf("%c", last_name[m]);
-  printf(", %c.\n", i);
+  // read last name
+  if (ch != EOF && ch != '\n') {
+    last_name[last_name_len] = ch;
+    last_name_len++;
+
+    while ((ch = getchar()) != EOF && ch != '\n' && !isspace(ch) &&
+           last_name_len < LAST_NAME_MAX) {
+      last_name[last_name_len] = ch;
+      last_name_len++;
+    }
+  }
+
+  // set '\0' to the last item of last_name
+  last_name[last_name_len] = '\0';
+
+  // skip extra letters after last name
+  while (ch != EOF && ch != '\n') {
+    ch = getchar();
+  }
+
+  printf("You entered the name: %s, %c.\n", last_name, first_initial);
 
   return 0;
 }
