@@ -22,7 +22,7 @@
 #define MAX_LENGTH 100
 
 int main(void) {
-  int n = 0, word_len = 0, end_word, start_word;
+  int n = 0, word_len = 0, end_word, start_word, cur_pos;
   char ch;
   char terminating_ch;
   char sentence[MAX_LENGTH] = {0};          // Including '\0'
@@ -39,31 +39,28 @@ int main(void) {
     switch (sentence[n]) {
     case '.':
       terminating_ch = '.';
+      start_word = n - 1;
       end_word = n - 1;
       break;
     case '?':
       terminating_ch = '?';
+      start_word = n - 1;
       end_word = n - 1;
       break;
     case '!':
       terminating_ch = '!';
+      start_word = n - 1;
       end_word = n - 1;
       break;
     }
   }
+  printf("%d\n", start_word);
 
-  for (n = end_word; n >= 0; n--) {
-    while (sentence[n] != ' ') {
-      start_word = n + 1;
+  for (cur_pos = end_word; cur_pos >= 0; cur_pos--) {
+    while (sentence[cur_pos] != ' ') {
+      cur_pos--;
+      printf("Curpos %d\n", sentence[cur_pos]);
     }
-    for (n = start_word; n >= end_word; n++) {
-      printf("%c", sentence[n]);
-    }
-    end_word = start_word - 1;
-  }
-
-  for (n = start_word; n <= word_len; n++) {
-    printf("%c", sentence[n]);
   }
 
   printf("%c\n", terminating_ch);
