@@ -61,8 +61,15 @@ int main(void) {
     if (n == 0 || sentence[n] != ' ') {
       word_len++;
     }
-    if (n == 0 || sentence[n] == ' ') {
-      for (int m = n; m <= n + word_len; m++) {
+    if (sentence[n] == ' ') {
+      for (int m = n + 1; m <= n + word_len; m++) {
+        printf("%c", sentence[m]);
+      }
+      printf(" ");
+      word_len = 0;
+    }
+    if (n == 0) {
+      for (int m = n; m <= n + word_len - 1; m++) {
         printf("%c", sentence[m]);
       }
       word_len = 0;
