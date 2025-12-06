@@ -54,13 +54,28 @@ int main(void) {
       break;
     }
   }
-  printf("%d\n", start_word);
+  printf("end_word: %d\n", end_word);
+  printf("Reversed : ");
 
-  for (cur_pos = end_word; cur_pos >= 0; cur_pos--) {
-    while (sentence[cur_pos] != ' ') {
-      cur_pos--;
-      printf("Curpos %d\n", sentence[cur_pos]);
+  for (n = end_word; n >= 0; n--) {
+    if (n == 0 || sentence[n] != ' ') {
+      word_len++;
     }
+    if (n == 0 || sentence[n] == ' ') {
+      for (int m = n; m <= n + word_len; m++) {
+        printf("%c", sentence[m]);
+      }
+      word_len = 0;
+    }
+
+    // printf("n: %d\n", n);
+    // printf("Word_len %d\n", word_len);
+    // printf("sentence[n] %c\n\n", sentence[n]);
+    // if (n == 0 || sentence[n] == ' ') {
+    //   for (int m = n; m <= word_len; m++) {
+    //     printf("%c", sentence[m]);
+    // }
+    // }
   }
 
   printf("%c\n", terminating_ch);
