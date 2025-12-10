@@ -28,23 +28,69 @@
  * functions from <ctype.h>, such as isalpha and tolower. */
 
 #include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 #define MAX 26
 
 int main(void) {
-  int ch, n, ana[MAX], ana2[MAX];
+  int ch, i, n, ana1[MAX] = {0}, ana2[MAX] = {0};
+  bool is_anagram = false;
 
   printf("Enter first word: ");
 
   while (((ch = getchar()) != '\n')) {
-    ana[n] = ch;
-    n++;
+    if (isalpha(ch)) {
+      ch = tolower(ch);
+      n = ch - 'a';
+      ana1[n]++;
+    }
   }
 
-  printf("First word :");
-  for (int i = 0; i < n; i++)
-    printf("%c", ana[i]);
+  printf("Enter second word: ");
+
+  while (((ch = getchar()) != '\n')) {
+    if (isalpha(ch)) {
+      ch = tolower(ch);
+      n = ch - 'a';
+      ana2[n] = ana1[n];
+    }
+  }
+
+  for (i = 0; i < MAX; i++) {
+    if (ana2[i] == 0) {
+      is_anagram = true;
+    } else {
+      is_anagram = false;
+      break;
+    }
+  }
+
+  printf("ana1: ");
+  for (i = 0; i < MAX; i++) {
+    printf("%d", ana1[i]);
+  }
+  printf("\n");
+
+  printf("ana2: ");
+  for (i = 0; i < MAX; i++) {
+    printf("%d", ana2[i]);
+  }
+  printf("\n");
+
+  //   for (i = 0; i < MAX; i++) {
+  //     if (ana[i] == ana2[i]) {
+  //       is_anagram = true;
+  //     } else {
+  //       is_anagram = false;
+  //       break;
+  //     }
+  //   }
+
+  if (is_anagram)
+    printf("The words are anagrams.");
+  else
+    printf("The words are not anagrams.");
 
   printf("\n");
 
