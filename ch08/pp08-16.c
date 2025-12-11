@@ -53,12 +53,12 @@ int main(void) {
     if (isalpha(ch)) {
       ch = tolower(ch);
       n = ch - 'a';
-      ana2[n] = ana1[n];
+      ana1[n]--;
     }
   }
 
   for (i = 0; i < MAX; i++) {
-    if (ana2[i] == 0) {
+    if (ana1[i] == 0) {
       is_anagram = true;
     } else {
       is_anagram = false;
@@ -72,11 +72,11 @@ int main(void) {
   }
   printf("\n");
 
-  printf("ana2: ");
-  for (i = 0; i < MAX; i++) {
-    printf("%d", ana2[i]);
-  }
-  printf("\n");
+  // printf("ana2: ");
+  // for (i = 0; i < MAX; i++) {
+  //   printf("%d", ana2[i]);
+  // }
+  // printf("\n");
 
   //   for (i = 0; i < MAX; i++) {
   //     if (ana[i] == ana2[i]) {
