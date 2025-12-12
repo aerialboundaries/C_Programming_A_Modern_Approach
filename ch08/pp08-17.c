@@ -31,4 +31,55 @@
 
 #include <stdio.h>
 
-int main(void) { return 0; }
+#define VALID_RANGE(n) (((n + size) % size))
+
+int main(void) {
+  int size, r, c, number;
+
+  printf("This program creates a magic square of a specified size.\n");
+  printf("The size must be an odd number between 1 and 99.\n");
+
+  for (;;) {
+    printf("Enter size of magic square: ");
+    scanf("%d", &size);
+    if (size % 2 == 0) {
+      printf("Invalid number.\n");
+      continue;
+    } else {
+      break;
+    }
+  }
+  int magic_square[size][size];
+
+  // initialize magic_square
+  for (r = 0; r < size; r++) {
+    for (c = 0; c < size; c++) {
+      magic_square[r][c] = 0;
+    }
+  }
+
+  // Making magic_square
+  c = size / 2; // Set the first column to the middle of the array
+  r = 0;
+  magic_square[r][c] = 1;
+  for (number = 2; number <= size * size; number++) {
+    if (magic_square[VALID_RANGE(r - 1)][VALID_RANGE(c + 1)] == 0) {
+      r = VALID_RANGE(r - 1);
+      c = VALID_RANGE(c + 1);
+      magic_square[r][c] = number;
+    } else {
+      r = r + 1;
+      magic_square[r][c] = number;
+    }
+  }
+
+  // Print magic_square
+  for (r = 0; r < size; r++) {
+    for (c = 0; c < size; c++) {
+      printf("%4d", magic_square[r][c]);
+    }
+    printf("\n");
+  }
+
+  return 0;
+}
