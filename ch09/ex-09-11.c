@@ -9,29 +9,42 @@
  * return the average of the grades (assume that A=4, B=3, C=2, D=1, and F = 0).
  */
 
+#include <ctype.h>
 #include <stdio.h>
 
 #define N 9
-#define A 4
-#define B 3
-#define C 2
-#define D 1
-#define F 0
 
 float compute_GPA(char grades[], int n);
 
 int main(void) {
 
-  char grades[N] = {C, A, B, D, F, C, A, B, D};
-  printf("GPA is : %.2f", compute_GPA(grades, N));
+  char grades[N] = {'A', 'b', 'C', 'd', 'F', 'a', 'B', 'c', 'A'};
+  printf("GPA is : %.2f\n", compute_GPA(grades, N));
 
   return 0;
 }
 
 float compute_GPA(char grades[], int n) {
-  int sum = 0;
+  float sum = 0.0f;
   for (int i = 0; i < n; i++) {
-    sum += grades[i];
+    char g = toupper((unsigned char)grades[i]);
+
+    switch (g) {
+    case 'A':
+      sum += 4;
+      break;
+    case 'B':
+      sum += 3;
+      break;
+    case 'C':
+      sum += 1;
+      break;
+    case 'F':
+      sum += 0;
+      break;
+    default:
+      break;
+    }
   }
-  return (float)sum / N;
+  return (n > 0) ? (sum / n) : 0.0f;
 }
