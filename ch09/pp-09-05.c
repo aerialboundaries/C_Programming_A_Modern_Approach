@@ -51,10 +51,12 @@
 
 #include <stdio.h>
 
-#define VALID_RANGE(n) (((n + size) % size))
+// #define VALID_RANGE(n) (((n + size) % size))
+void create_magic_square(int n, char magic_square[n][n]);
+void print_magic_square(int n, char magic_square[n][n]);
 
 int main(void) {
-  int size, r, c, number;
+  int size; //, r, c, number;
 
   printf("This program creates a magic square of a specified size.\n");
   printf("The size must be an odd number between 1 and 99.\n");
@@ -69,37 +71,47 @@ int main(void) {
       break;
     }
   }
-  int magic_square[size][size];
 
+  char magic_square[size][size];
+
+  create_magic_square(size, magic_square);
+
+  print_magic_square(size, magic_square);
+
+  return 0;
+}
+
+void create_magic_square(int n, char magic_square[n][n]) {
+  int r, c, number;
   // initialize magic_square
-  for (r = 0; r < size; r++) {
-    for (c = 0; c < size; c++) {
+  for (r = 0; r < n; r++) {
+    for (c = 0; c < n; c++) {
       magic_square[r][c] = 0;
     }
   }
 
   // Making magic_square
-  c = size / 2; // Set the first column to the middle of the array
+  c = n / 2; // Set the first column to the middle of the array
   r = 0;
   magic_square[r][c] = 1;
-  for (number = 2; number <= size * size; number++) {
-    if (magic_square[VALID_RANGE(r - 1)][VALID_RANGE(c + 1)] == 0) {
-      r = VALID_RANGE(r - 1);
-      c = VALID_RANGE(c + 1);
+  for (number = 2; number <= n * n; number++) {
+    if (magic_square[(r - 1 + n) % n][(c + 1 + n) % n] == 0) {
+      r = (r - 1 + n) % n;
+      c = (c + 1 + n) % n;
       magic_square[r][c] = number;
     } else {
-      r = r + 1;
+      r = (r + 1 + n) % n;
       magic_square[r][c] = number;
     }
   }
+}
 
+void print_magic_square(int n, char magic_square[n][n]) {
   // Print magic_square
-  for (r = 0; r < size; r++) {
-    for (c = 0; c < size; c++) {
+  for (int r = 0; r < n; r++) {
+    for (int c = 0; c < n; c++) {
       printf("%4d", magic_square[r][c]);
     }
     printf("\n");
   }
-
-  return 0;
 }
