@@ -41,6 +41,7 @@
 #include <stdio.h>
 
 #define MAX_DIGITS 10
+#define WIDTH 4
 #define IS_DIGIT(ch) (ch >= '0' && ch <= '9')
 
 /* Proto Type */
@@ -49,40 +50,69 @@ void process_digit(int digit, int position);
 void print_digits_array(void);
 
 /* external variables */
-const int seguments[10][7] = {{1, 1, 1, 1, 1, 1, 0}, {0, 1, 1, 0, 0, 0, 0},
-                              {1, 1, 0, 1, 1, 0, 1}, {1, 1, 1, 1, 0, 0, 1},
-                              {0, 1, 1, 0, 0, 1, 1}, {1, 0, 1, 1, 0, 1, 1},
-                              {1, 0, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 0},
-                              {1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 1, 1}};
+const int segments[10][7] = {{1, 1, 1, 1, 1, 1, 0}, {0, 1, 1, 0, 0, 0, 0},
+                             {1, 1, 0, 1, 1, 0, 1}, {1, 1, 1, 1, 0, 0, 1},
+                             {0, 1, 1, 0, 0, 1, 1}, {1, 0, 1, 1, 0, 1, 1},
+                             {1, 0, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 0},
+                             {1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 1, 1}};
 
-char digits[4][MAX_DIGITS * 4];
+char digits[4][MAX_DIGITS * WIDTH];
 
 int main(void) {
   int digit_count = 0, digit;
-  while ((digit = getchar()) && digit_count < MAX_DIGITS) {
+
+  clear_digits_array();
+
+  printf("Enter a number: ");
+
+  while ((digit = getchar()) != '\n' && digit_count < MAX_DIGITS) {
     if (IS_DIGIT(digit)) {
       digit -= '0';
-      process_digit(digit, digit_count);
+      process_digit(digit, digit_count * WIDTH);
       digit_count++;
     }
   }
+
+  print_digits_array();
+
   return 0;
 }
 
 void clear_digits_array(void) {
   for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < MAX_DIGITS * 4; j++) {
+    for (int j = 0; j < MAX_DIGITS * WIDTH; j++) {
       digits[i][j] = ' ';
     }
   }
 }
 
 void process_digit(int digit, int position) {
-  int i = 0;
-  switch (digit) {
-  case 0:
-    for (i = 0; i < 3; i++) {
-      digits[position][i] =
+  /* Upper row */
+  if (segments[digit][0] == 1)
+    digits[0][position + 1] = '_';
+
+  /* Middle row */
+  if (segments[digit][5] == 1)
+    digits[1][position + 0] = '|';
+  if (segments[digit][6] == 1)
+    digits[1][position + 1] = '_';
+  if (segments[digit][1] == 1)
+    digits[1][position + 2] = '|';
+
+  /* Lower row */
+  if (segments[digit][4] == 1)
+    digits[2][position + 0] = '|';
+  if (segments[digit][3] == 1)
+    digits[2][position + 1] = '_';
+  if (segments[digit][2] == 1)
+    digits[2][position + 2] = '|';
+}
+
+void print_digits_array(void) {
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < MAX_DIGITS * WIDTH; j++) {
+      printf("%c", digits[i][j]);
     }
+    printf("\n");
   }
 }
