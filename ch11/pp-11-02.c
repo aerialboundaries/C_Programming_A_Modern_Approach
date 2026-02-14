@@ -50,10 +50,12 @@
 #include <stdio.h>
 
 #define FLIGHTS 8
-#define ABS_DIFF(a, b) ((a - b) > 0 ? a : b)
+#define ABS_DIFF(a, b) ((a - b) > 0 ? a - b : b - a)
 
 void find_closest_flight(int desired_time, int *departure_time,
                          int *arrival_time);
+
+void print_closest_flight(int minutes);
 
 int main(void) {
   int input_hour, input_minute, desired_time, departure_time, arrival_time;
@@ -64,8 +66,11 @@ int main(void) {
 
   find_closest_flight(desired_time, &departure_time, &arrival_time);
 
-  printf("The closest flight is: Departure %d, Arrival %d\n", departure_time,
-         arrival_time);
+  printf("Closest departure time is ");
+  print_closest_flight(departure_time);
+  printf(", arriving at ");
+  print_closest_flight(arrival_time);
+  printf("\n");
 
   return 0;
 }
@@ -79,12 +84,28 @@ void find_closest_flight(int desired_time, int *departure_time,
                           60 * 15 + 0,  60 * 16 + 8,  60 * 17 + 55,
                           60 * 21 + 20, 60 * 23 + 58},
       smallest_gap = ABS_DIFF(desired_time, flt_dep[0]);
+  *departure_time = flt_dep[0];
+  *arrival_time = flt_arr[0];
 
   for (int i = 1; i < FLIGHTS; i++) {
-    if (smallest_gap < ABS_DIFF(desired_time, flt_dep[i])) {
+    if (smallest_gap > ABS_DIFF(desired_time, flt_dep[i])) {
       smallest_gap = ABS_DIFF(desired_time, flt_dep[i]);
       *departure_time = flt_dep[i];
       *arrival_time = flt_arr[i];
     }
   }
+}
+
+void print_closest_flight(int minutes) {
+  int hour, minute;
+  hour = minutes / 60;
+  minute = minutes % 60;
+  if (hour < 12)
+    printf("%d:%02d am.", hour, minute);
+  if (hour == 12)
+    printf("%d:%02d pm.", hour, minute);
+  if (hour > 12 && hour < 24)
+    printf("%d:%02d pm.", hour - 12, minute);
+  if (hour == 24)
+    printf("%d:%02d am.", hour - 12, minute);
 }
