@@ -17,9 +17,8 @@ double inner_product(const double *a, const double *b, int n) {
   const double *p, *q;
   p = a;
   q = b;
-  for (p = a; p < a + n; p++) {
-    sum += *a(p) * *b(q);
-    p++;
-    q++;
+  for (int i = 0; i < n; i++) {
+    sum += *p++ * *q++;
   }
+  return sum;
 }
