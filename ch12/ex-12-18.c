@@ -46,42 +46,42 @@ int main(void) {
 
 int evaluate_position(char board[8][8]) {
   int answer = 0;
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      switch (board[i][j]) {
-      case 'Q':
-        answer += 9;
-        break;
-      case 'R':
-        answer += 5;
-        break;
-      case 'B':
-        answer += 3;
-        break;
-      case 'N':
-        answer += 3;
-        break;
-      case 'P':
-        answer += 1;
-        break;
-      case 'q':
-        answer -= 9;
-        break;
-      case 'r':
-        answer -= 5;
-        break;
-      case 'b':
-        answer -= 3;
-        break;
-      case 'n':
-        answer -= 3;
-        break;
-      case 'p':
-        answer -= 1;
-        break;
-      default:
-        break;
-      }
+  const char *p;
+
+  for (p = *board; p < *board + 8 * 8; p++) {
+    switch (*p) {
+    case 'Q':
+      answer += 9;
+      break;
+    case 'R':
+      answer += 5;
+      break;
+    case 'B':
+      answer += 3;
+      break;
+    case 'N':
+      answer += 3;
+      break;
+    case 'P':
+      answer += 1;
+      break;
+    case 'q':
+      answer -= 9;
+      break;
+    case 'r':
+      answer -= 5;
+      break;
+    case 'b':
+      answer -= 3;
+      break;
+    case 'n':
+      answer -= 3;
+      break;
+    case 'p':
+      answer -= 1;
+      break;
+    default:
+      break;
     }
   }
   return answer;
