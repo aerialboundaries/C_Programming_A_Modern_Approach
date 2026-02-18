@@ -1,10 +1,10 @@
 /* C Programming A Modern Approach
- * ex-12-15.c
+ * ex-12-16.c
  * 2026-02-17
  *
- * Write a loop that prints all temerature readings stored in row i of the
- * temperatures array (see Exercise 14). Use a pointer to visit each element
- * of the row.
+ * Write a loop that prints the highest temperture in the temperatures array
+ * (see Exercise 14) for each day of the week. The loop body should call the
+ * find_largest function, passingit one row of the array at a time.
  */
 
 #include <stdbool.h>
@@ -13,7 +13,7 @@
 #define DAYS 7
 #define HOURS 24
 
-void print_row(const int a[][HOURS], int i);
+int find_largest(const int a[], int n);
 
 int main(void) {
 
@@ -42,15 +42,19 @@ int main(void) {
                               25, 26, 25, 24, 22, 21, 19, 18, 17, 16, 16, 15}};
 
   /* statement */
-  print_row(temperatures, i);
+  const int (*p)[HOURS];
+  for (p = temperatures; p < temperatures + DAYS; p++) {
+    printf("Day %ld : %d\n", (p - temperatures) + 1, find_largest(*p, HOURS));
+  }
 
   return 0;
 }
 
-void print_row(const int a[][HOURS], int i) {
-  const int *p;
-  for (p = a[i]; p < a[i] + HOURS; p++) {
-    printf("%d ", *p);
-  }
-  printf("\n");
+int find_largest(const int a[], int n) {
+  int i, max;
+  max = a[0];
+  for (i = 1; i < n; i++)
+    if (a[i] > max)
+      max = a[i];
+  return max;
 }
