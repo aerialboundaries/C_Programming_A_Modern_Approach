@@ -20,3 +20,41 @@
  */
 
 // My Anwer for (a)
+
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define N 80
+
+int main(void) {
+  int ch, i = 0, j = 0, a[N];
+  bool palindrome = true;
+
+  printf("Enter a message: ");
+
+  while ((ch = getchar()) != '\n' && ch != EOF) {
+
+    if (isalpha(ch))
+      a[i++] = tolower(ch);
+
+    if (i > N) {
+      printf("Too much character\n");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  for (--i; i >= 0; i--) {
+    if (a[i] != a[j++]) {
+      palindrome = false;
+    }
+  }
+
+  if (palindrome == true)
+    printf("Palindrome\n");
+  else
+    printf("Not a palindrme\n");
+
+  return 0;
+}
