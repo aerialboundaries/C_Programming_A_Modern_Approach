@@ -17,7 +17,7 @@
 
 #define N 80
 
-char *capitalize(char str[], int n);
+void capitalize(char str[]);
 
 int main(void)
 {
@@ -26,22 +26,21 @@ int main(void)
 
     printf("Enter a sentence: ");
     while ((ch = getchar()) != '\n')
-        if (i < (N + 1))
+        if (i < N)
             str[i++] = ch;
 
     str[i] = '\0';
 
-    printf("%s\n", capitalize(str, N + 1));
+    capitalize(str);
+    printf("%s\n", str);
 
     return 0;
 }
 
-char *capitalize(char str[], int n)
+void capitalize(char str[])
 {
     int i;
 
-    for (i = 0; i < n; i++)
+    for (i = 0; str[i] != '\0'; i++)
         str[i] = toupper(str[i]);
-
-    return str;
 }

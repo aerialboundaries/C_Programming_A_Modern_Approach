@@ -1,47 +1,62 @@
 /* C Programming A Modern Approach
- * ex-13-05-a.c
+ * ex-13-04.c -- KN's Answer
  * 2026-03-02
- *
- * (a) Write a function named capitalize that capitalizes all letters in its
- * argument. The argument will be a null-terminated string containing arbitrary
- * characters, not just letters. Use array subscripting to access the characters
- * in the string. Hint: Use the toupper function to confvert each charactre to
- * upper-case
- *
- * (b) Rewrite the capitalize function, this time using pointer arithmetic to
- * access the characters in the string.
  */
 
 #include <ctype.h>
 #include <stdio.h>
 
-#define N 80
-
-char *capitalize(char str[], int n);
-
-int main(void)
+/* (a) */
+int read_line(char str[], int n)
 {
-    int i = 0, ch;
-    char str[N + 1];
+    int ch, i = 0;
 
-    printf("Enter a sentence: ");
     while ((ch = getchar()) != '\n')
-        if (i < (N + 1))
+        if (i == 0 && isspace(ch))
+            ; /* ignore */
+        else if (i < n)
             str[i++] = ch;
-
     str[i] = '\0';
-
-    printf("%s\n", capitalize(str, N + 1));
-
-    return 0;
+    return i;
 }
 
-char *capitalize(char str[], int n)
+/* (b) */
+int read_line(char str[], int n)
 {
-    int i;
+    int ch, i = 0;
 
-    for (i = 0; i < n; i++)
-        str[i] = toupper(str[i]);
+    while (!isspace(ch = getchar()))
+        if (i < n)
+            str[i++] = ch;
+    str[i] = '\0';
+    return i;
+}
 
-    return str;
+/* (c) */
+int read_line(char str[], int n)
+{
+    int ch, i = 0;
+
+    do {
+        ch = getchar();
+        if (i < n)
+            str[i++] = ch;
+    } while (ch != '\n');
+    str[i] = '\0';
+    return i;
+}
+
+/* (d) */
+int read_line(char str[], int n)
+{
+    int ch, i;
+
+    for (i = 0; i < n; i++) {
+        ch = getchar();
+        if (ch == '\n')
+            break;
+        str[i] = ch;
+    }
+    str[i] = '\0';
+    return i;
 }
