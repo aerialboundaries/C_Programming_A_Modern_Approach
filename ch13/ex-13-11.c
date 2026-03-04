@@ -8,28 +8,29 @@
  */
 
 #include <stdio.h>
-#include <string.h>
 
 #define N 80
 
-int my_strcmp(char *s, char *t);
+int my_strcmp(const char *s, const char *t);
 
 int main(void)
 {
-    char s[80] = { "Thbs is a pen." };
-    char t[80] = { "That is a pen." };
+    char s[80] = { "This is a pen." };
+    char t[80] = { "This is a pen." };
 
     printf("my_strcpm: %d\n", my_strcmp(s, t));
 
     return 0;
 }
 
-int my_strcmp(char *s, char *t)
+int my_strcmp(const char *s, const char *t)
 {
-    int i;
-
-    for (i = 0; s[i] == t[i]; i++)
-        if (s[i] == '\0')
+    while (*s == *t) {
+        if (*s == '\0') {
             return 0;
-    return s[i] - t[i];
+        }
+        s++;
+        t++;
+    }
+    return (unsigned char)*s - (unsigned char)*t;
 }
