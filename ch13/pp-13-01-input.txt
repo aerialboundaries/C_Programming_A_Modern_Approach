@@ -1,0 +1,7 @@
+ Enter word: dog
+ Enter word: zebra
+ Enter word: rabbit
+ Enter word: catfish
+ Enter word: walrus
+ Enter word: cat
+ Enter word: fish
