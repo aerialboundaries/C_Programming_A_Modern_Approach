@@ -41,6 +41,14 @@ int main(void)
         scanf("%2d", &day);
         if (day == 0)
             break;
+
+        if (day < 0 || day > 31) {
+            printf("day must be between 0 and 31.\n");
+            while (getchar() != '\n')
+                ; // do nothing. clear buffer.
+            continue;
+        }
+
         sprintf(day_str, "%2d", day);
         read_line(msg_str, MSG_LEN);
 
