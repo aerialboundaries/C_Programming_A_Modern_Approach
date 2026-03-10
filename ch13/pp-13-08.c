@@ -27,6 +27,8 @@
 #include <ctype.h>
 #include <stdio.h>
 
+int compute_scrabble_value(const char *word);
+
 int main(void) {
 
   char ch;
@@ -94,4 +96,11 @@ int main(void) {
 
   return 0;
 }
-** /
+
+int compute_scrabble_value(const char *word) {
+  const char *scrabble[] = {"AEILNORSTD", "DG", "BCMP", "FHVWY",
+                            "K",          "JX", "QZ"};
+  int sum = 0;
+  while (*word) {
+  }
+}
