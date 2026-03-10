@@ -150,7 +150,7 @@ int main(void) {
 }
 
 char *answer(int d1, int d2) {
-  char result[80];
+  static char result[80];
 
   char *tens[] = {"ten",     "eleven",  "twelve",    "thirteen", "fourteen",
                   "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
@@ -167,6 +167,8 @@ char *answer(int d1, int d2) {
     return strcpy(result, digit1[d1 - 2]);
   }
   if (d1 > 1 && d2 != 0) {
-    return strcat(strcat(strcpy(result, digit1[d1 - 2]), "-"), digit2[d2 - 1]);
+    strcat(strcat(strcpy(result, digit1[d1 - 2]), "-"), digit2[d2 - 1]);
+    return result;
   }
+  return "unknown";
 }
