@@ -24,125 +24,149 @@
  * the numbers between 11 and 19 require special treatment.*/
 
 #include <stdio.h>
+#include <string.h>
 
-int main(void)
-{
-    int n, d1, d2;
+char *answer(int d1, int d2);
 
-    printf("Enter a two-digit number: ");
-    if (scanf("%d", &n) != 1) {
-        printf("Invalid input.\n");
-        return 1;
-    }
+int main(void) {
+  int n, d1, d2;
 
-    if (n > 99 || n < 10) {
-        printf("Illegal number\n");
-        return 0;
-    }
+  printf("Enter a two-digit number: ");
+  if (scanf("%d", &n) != 1) {
+    printf("Invalid input.\n");
+    return 1;
+  }
 
-    d1 = n / 10;
-    d2 = n % 10;
-
-    printf("You entered the number: ");
-
-    if (d1 == 1) {
-        switch (n) {
-        case 10:
-            printf("ten.\n");
-            break;
-        case 11:
-            printf("eleven.\n");
-            break;
-        case 12:
-            printf("twelve.\n");
-            break;
-        case 13:
-            printf("thirteen.\n");
-            break;
-        case 14:
-            printf("fourteen.\n");
-            break;
-        case 15:
-            printf("fifteen.\n");
-            break;
-        case 16:
-            printf("sixteen.\n");
-            break;
-        case 17:
-            printf("seventeen.\n");
-            break;
-        case 18:
-            printf("eighteen.\n");
-            break;
-        case 19:
-            printf("nineteen.\n");
-            break;
-        }
-        return 0;
-    }
-
-    switch (d1) {
-    case 2:
-        printf("twenty");
-        break;
-    case 3:
-        printf("thirty");
-        break;
-    case 4:
-        printf("forty");
-        break;
-    case 5:
-        printf("fifty");
-        break;
-    case 6:
-        printf("sixty");
-        break;
-    case 7:
-        printf("seventy");
-        break;
-    case 8:
-        printf("eighty");
-        break;
-    case 9:
-        printf("ninty");
-        break;
-    }
-
-    if (d2 != 0) {
-        printf("-");
-    }
-
-    switch (d2) {
-    case 0:
-        printf(".\n");
-        break;
-    case 1:
-        printf("one.\n");
-        break;
-    case 2:
-        printf("two.\n");
-        break;
-    case 3:
-        printf("three.\n");
-        break;
-    case 4:
-        printf("four.\n");
-        break;
-    case 5:
-        printf("five.\n");
-        break;
-    case 6:
-        printf("six.\n");
-        break;
-    case 7:
-        printf("seven.\n");
-        break;
-    case 8:
-        printf("eight.\n");
-        break;
-    case 9:
-        printf("nine.\n");
-        break;
-    }
+  if (n > 99 || n < 10) {
+    printf("Illegal number\n");
     return 0;
+  }
+
+  d1 = n / 10;
+  d2 = n % 10;
+
+  printf("You entered the number: %s\n", answer(d1, d2));
+
+  //  if (d1 == 1) {
+  //    switch (n) {
+  //    case 10:
+  //      printf("ten.\n");
+  //      break;
+  //    case 11:
+  //      printf("eleven.\n");
+  //      break;
+  //    case 12:
+  //      printf("twelve.\n");
+  //      break;
+  //    case 13:
+  //      printf("thirteen.\n");
+  //      break;
+  //    case 14:
+  //      printf("fourteen.\n");
+  //      break;
+  //    case 15:
+  //      printf("fifteen.\n");
+  //      break;
+  //    case 16:
+  //      printf("sixteen.\n");
+  //      break;
+  //    case 17:
+  //      printf("seventeen.\n");
+  //      break;
+  //    case 18:
+  //      printf("eighteen.\n");
+  //      break;
+  //    case 19:
+  //      printf("nineteen.\n");
+  //      break;
+  //    }
+  //    return 0;
+  //  }
+  //
+  //  switch (d1) {
+  //  case 2:
+  //    printf("twenty");
+  //    break;
+  //  case 3:
+  //    printf("thirty");
+  //    break;
+  //  case 4:
+  //    printf("forty");
+  //    break;
+  //  case 5:
+  //    printf("fifty");
+  //    break;
+  //  case 6:
+  //    printf("sixty");
+  //    break;
+  //  case 7:
+  //    printf("seventy");
+  //    break;
+  //  case 8:
+  //    printf("eighty");
+  //    break;
+  //  case 9:
+  //    printf("ninty");
+  //    break;
+  //  }
+  //
+  //  if (d2 != 0) {
+  //    printf("-");
+  //  }
+  //
+  //  switch (d2) {
+  //  case 0:
+  //    printf(".\n");
+  //    break;
+  //  case 1:
+  //    printf("one.\n");
+  //    break;
+  //  case 2:
+  //    printf("two.\n");
+  //    break;
+  //  case 3:
+  //    printf("three.\n");
+  //    break;
+  //  case 4:
+  //    printf("four.\n");
+  //    break;
+  //  case 5:
+  //    printf("five.\n");
+  //    break;
+  //  case 6:
+  //    printf("six.\n");
+  //    break;
+  //  case 7:
+  //    printf("seven.\n");
+  //    break;
+  //  case 8:
+  //    printf("eight.\n");
+  //    break;
+  //  case 9:
+  //    printf("nine.\n");
+  //    break;
+  //  }
+  return 0;
+}
+
+char *answer(int d1, int d2) {
+  char result[80];
+
+  char *tens[] = {"ten",     "eleven",  "twelve",    "thirteen", "fourteen",
+                  "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+  char *digit1[] = {"twenty", "thirty",  "forty",  "fifty",
+                    "sixty",  "seventy", "eighty", "ninety"};
+  char *digit2[] = {"one", "two",   "three", "four", "five",
+                    "six", "seven", "eight", "nine"};
+
+  if (d1 == 1) {
+    return strcpy(result, tens[d2]);
+  }
+
+  if (d1 > 1 && d2 == 0) {
+    return strcpy(result, digit1[d1 - 2]);
+  }
+  if (d1 > 1 && d2 != 0) {
+    return strcat(strcat(strcpy(result, digit1[d1 - 2]), "-"), digit2[d2 - 1]);
+  }
 }
