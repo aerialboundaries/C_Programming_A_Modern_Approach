@@ -25,82 +25,54 @@
  */
 
 #include <ctype.h>
+#include <linux/limits.h>
 #include <stdio.h>
+#include <string.h>
+
+#define NUM_GROUP 7
 
 int compute_scrabble_value(const char *word);
 
-int main(void) {
+int main(void)
+{
 
-  char ch;
-  int scrabble, sum = 0;
+    char ch;
+    char word[80];
+    int i = 0;
 
-  while ((ch = getchar()) != '\n') {
-    ch = toupper(ch);
-    switch (ch) {
-    case 'A':
-    case 'E':
-    case 'I':
-    case 'L':
-    case 'N':
-    case 'O':
-    case 'R':
-    case 'S':
-    case 'T':
-    case 'U':
-      scrabble = 1;
-      sum += scrabble;
-      break;
+    printf("Enter a word: ");
 
-    case 'D':
-    case 'G':
-      scrabble = 2;
-      sum += scrabble;
-      break;
-
-    case 'B':
-    case 'C':
-    case 'M':
-    case 'P':
-      scrabble = 3;
-      sum += scrabble;
-      break;
-
-    case 'F':
-    case 'H':
-    case 'V':
-    case 'W':
-    case 'Y':
-      scrabble = 4;
-      sum += scrabble;
-      break;
-
-    case 'K':
-      scrabble = 5;
-      sum += scrabble;
-      break;
-
-    case 'J':
-    case 'X':
-      scrabble = 8;
-      sum += scrabble;
-      break;
-
-    case 'Q':
-    case 'Z':
-      scrabble = 10;
-      sum += scrabble;
-      break;
+    while ((ch = getchar()) != '\n' && ch != EOF) {
+        word[i++] = toupper(ch);
     }
-  }
-  printf("Scrabble value: %d\n", sum);
+    word[i] = '\0';
 
-  return 0;
+    printf("Scrabble value: %d\n", compute_scrabble_value(word));
+    ;
+
+    return 0;
 }
 
-int compute_scrabble_value(const char *word) {
-  const char *scrabble[] = {"AEILNORSTD", "DG", "BCMP", "FHVWY",
-                            "K",          "JX", "QZ"};
-  int sum = 0;
-  while (*word) {
-  }
+int compute_scrabble_value(const char *word)
+{
+    const char *scrabble[]
+        = { "AEILNORSTU", "DG", "BCMP", "FHVWY", "K", "JX", "QZ" };
+
+    const int value[] = { 1, 2, 3, 4, 5, 8, 10 };
+
+    int i, sum = 0;
+    size_t j;
+
+    while (*word) {
+        for (i = 0; i < NUM_GROUP; i++) {
+            for (j = 0; j < strlen(scrabble[i]); j++) {
+                if (*word == scrabble[i][j]) {
+                    sum += value[i];
+                    break;
+                }
+            }
+        }
+        word++;
+    }
+    return sum;
 }
