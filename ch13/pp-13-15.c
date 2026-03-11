@@ -48,156 +48,120 @@
  * Section 10.2 into your program. Use scanf(" %c", &ch) to read the operators
  * and operands. */
 
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #define STACK_SIZE 100
-#define MAX_EXPRESSION 100
 
-/* external variables */
+/* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
 int contents[STACK_SIZE];
 int top = 0;
 
-bool is_operator(char ch);
-bool is_operand(char ch);
-bool is_empty(void);
-bool is_full(void);
-void make_empty(void);
-void push(int ch);
-int pop(void);
-void stack_overflow(void);
-void stack_underflow(void);
-// void calc(char ch);
-int evaluate_RPN_expression(const char *expression);
-
+/* --- main関数 --- */
 int main(void) {
   char ch;
-  int i = 0;
-  char expression[100] = {0};
-  make_empty();
+  char expression[100];
+  int i;
+
   for (;;) {
     printf("Enter an RPN expression: ");
+    i = 0;
     for (;;) {
-      scanf(" %c", &ch);
-      if (!is_operator(ch) && !is_operand(ch) && ch != '=')
-        exit(EXIT_SUCCESS);
-      else
-        expression[i++] = ch;
-      // calc(ch);
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
       if (ch == '=') {
+
+        expression[i] = '\0';
+
         printf("Value of expression: %d\n",
                evaluate_RPN_expression(expression));
         break;
       }
     }
   }
-
   return 0;
 }
 
-bool is_operator(char ch) {
-  return (ch == '+' || ch == '-' || ch == '*' || ch == '/');
-  ;
-}
-bool is_operand(char ch) { return (ch >= '0' && ch <= '9'); }
-bool is_empty(void) { return top == 0; }
-bool is_full(void) { return top == STACK_SIZE; }
-void make_empty(void) { top = 0; }
-void push(int ch) {
-  if (is_operand(ch))
-    ch -= '0';
-  if (is_full())
-    stack_overflow();
-  else
-    contents[top++] = ch;
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
 }
 
-int pop(void) {
-  if (is_empty()) {
-    stack_underflow();
-    return 1;
-  } else
-    return contents[--top];
-}
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
 
 void stack_overflow(void) {
   printf("Expression is too complex\n");
   exit(EXIT_FAILURE);
 }
+
 void stack_underflow(void) {
   printf("Not enough operands in expression\n");
   exit(EXIT_FAILURE);
 }
 
-// void calc(char ch) {
-//   int op1, op2;
-//
-//   if (is_operand(ch))
-//     push(ch);
-//
-//   if (is_operator(ch)) {
-//     op2 = pop();
-//     op1 = pop();
-//   }
-//
-//   switch (ch) {
-//   case '+':
-//     push(op1 + op2);
-//     break;
-//   case '-':
-//     push(op1 - op2);
-//     break;
-//   case '*':
-//     push(op1 * op2);
-//     break;
-//   case '/':
-//     push(op1 / op2);
-//     break;
-//   case '=':
-//     printf("Value of expression: %d\n", pop());
-//     make_empty();
-//     break;
-//   default:
-//     break;
-//   }
-//   return;
-// }
+void push(int i) {
+  if (is_full())
+    stack_overflow();
 
-int evaluate_RPN_expression(const char *expression) {
-  int op1, op2, ans;
+  else
+    contents[top++] = i;
+}
 
-  while (*expression) {
-
-    if (is_operand(*expression))
-      push(*expression);
-
-    if (is_operator(*expression)) {
-      op2 = pop();
-      op1 = pop();
-    }
-
-    switch (*expression) {
-    case '+':
-      push(op1 + op2);
-      break;
-    case '-':
-      push(op1 - op2);
-      break;
-    case '*':
-      push(op1 * op2);
-      break;
-    case '/':
-      push(op1 / op2);
-      break;
-    case '=':
-      ans = pop();
-      make_empty();
-      break;
-    default:
-      break;
-    }
-    expression++;
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
   }
-  return ans;
+  return contents[--top];
 }
