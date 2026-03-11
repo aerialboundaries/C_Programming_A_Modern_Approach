@@ -45,8 +45,942 @@
  * is too complex and terminate. If the stack underflows (because of an
  * expression such as 1 2 + +), the program will display the message Not enough
  * operands in expression and terminate. Hints: Incorporate the stack code from
- * Section 10.2 into your program. Use scanf(" %c", &ch) to read the operators
- * and operands. */
+ * Section 10.2 into your program. Use scanf(" %c", &ch) to read the
+operato#include <stdbool.h> #include <ctype.h> #include <stdio.h> #include
+<stdlib.h>
+
+#define STACK_SIZE 100
+
+/* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+#include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 100
+
+          /* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+#include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 100
+
+          /* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+#include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 100
+
+          /* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+#include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 100
+
+          /* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+#include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 100
+
+          /* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+#include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 100
+
+          /* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+#include <stdbool.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 100
+
+          /* --- プロトタイプ宣言 --- */
+void make_empty(void);
+bool is_empty(void);
+bool is_full(void);
+void stack_overflow(void);
+
+void stack_underflow(void);
+void push(int i);
+int pop(void);
+int evaluate_RPN_expression(const char *expression);
+
+/* --- 外部変数 --- */
+int contents[STACK_SIZE];
+int top = 0;
+
+/* --- main関数 --- */
+int main(void) {
+  char ch;
+  char expression[100];
+  int i;
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+    i = 0;
+    for (;;) {
+      if (scanf(" %c", &ch) != 1)
+        break;
+
+      if (!isdigit((unsigned char)ch) && ch != '+' && ch != '-' && ch != '*' &&
+          ch != '/' && ch != '=') {
+        return 0;
+      }
+
+      expression[i++] = ch;
+
+      if (ch == '=') {
+
+        expression[i] = '\0';
+
+        printf("Value of expression: %d\n",
+               evaluate_RPN_expression(expression));
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+/* --- 関数の定義（中身） --- */
+
+int evaluate_RPN_expression(const char *expression) {
+  int op1, op2;
+  make_empty();
+
+  while (*expression) {
+
+    if (isdigit((unsigned char)*expression)) {
+      push(*expression - '0');
+    } else if (*expression == '+') {
+
+      push(pop() + pop());
+    } else if (*expression == '-') {
+      op2 = pop();
+      op1 = pop();
+      push(op1 - op2);
+    } else if (*expression == '*') {
+      push(pop() * pop());
+
+    } else if (*expression == '/') {
+
+      op2 = pop();
+      op1 = pop();
+      push(op1 / op2);
+    } else if (*expression == '=') {
+      return pop();
+    }
+    expression++;
+  }
+  return 0;
+}
+
+void make_empty(void) { top = 0; }
+bool is_empty(void) { return top == 0; }
+bool is_full(void) { return top == STACK_SIZE; }
+
+void stack_overflow(void) {
+  printf("Expression is too complex\n");
+  exit(EXIT_FAILURE);
+}
+
+void stack_underflow(void) {
+  printf("Not enough operands in expression\n");
+  exit(EXIT_FAILURE);
+}
+
+void push(int i) {
+  if (is_full())
+    stack_overflow();
+
+  else
+    contents[top++] = i;
+}
+
+int pop(void) {
+  if (is_empty()) {
+    stack_underflow();
+    return 0;
+  }
+  return contents[--top];
+}
+rs *and operands.* /
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -55,8 +989,8 @@
 
 #define STACK_SIZE 100
 
-/* --- プロトタイプ宣言 --- */
-void make_empty(void);
+    /* --- プロトタイプ宣言 --- */
+    void make_empty(void);
 bool is_empty(void);
 bool is_full(void);
 void stack_overflow(void);
