@@ -88,7 +88,7 @@ int main(void) {
       if (ch == '=') {
         printf("Value of expression: %d\n",
                evaluate_RPN_expression(expression));
-        //  break;
+        break;
       }
     }
   }
@@ -165,7 +165,7 @@ void stack_underflow(void) {
 // }
 
 int evaluate_RPN_expression(const char *expression) {
-  int op1, op2;
+  int op1, op2, ans;
 
   while (*expression) {
 
@@ -191,7 +191,7 @@ int evaluate_RPN_expression(const char *expression) {
       push(op1 / op2);
       break;
     case '=':
-      return pop();
+      ans = pop();
       make_empty();
       break;
     default:
@@ -199,5 +199,5 @@ int evaluate_RPN_expression(const char *expression) {
     }
     expression++;
   }
-  return 1;
+  return ans;
 }
