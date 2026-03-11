@@ -36,74 +36,89 @@
  * use a third loop to check whether all the elements in athe array are
  * zero. If so,the words are anagrams. Hing: You may wish to use
  * functions from <ctype.h>, such as isalpha and tolower. */
+/* C Programming A Modern Approach
+ * pp-13-14.c
+ * 2026-03-10
+ */
 
 #include <ctype.h>
+
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 
-#define MAX 26
+/* 単語の最大長を定義 */
+#define WORD_LEN 100
+
+/* 関数のプロトタイプ宣言 */
 bool are_anagrams(const char *word1, const char *word2);
 
-int main(void)
-{
-    int ch, n;
-    char ana1[MAX] = { 0 }, ana2[MAX] = { 0 };
+int main(void) {
+  char word1[WORD_LEN + 1];
+  char word2[WORD_LEN + 1];
+  int ch, i;
 
-    printf("Enter first word: ");
-    n = 0;
+  /* 1つ目の単語を入力 */
+  printf("Enter first word: ");
+  i = 0;
 
-    while (((ch = getchar()) != '\n')) {
-        if (isalpha(ch)) {
-            ch = tolower(ch);
-            ana1[n++] = ch;
-        }
+  while ((ch = getchar()) != '\n' && ch != EOF) {
+    if (i < WORD_LEN) {
+      word1[i++] = (char)ch;
     }
+  }
+  word1[i] = '\0'; /* 文字列の終端を保証 */
 
-    printf("Enter second word: ");
-    n = 0;
-
-    while (((ch = getchar()) != '\n')) {
-        if (isalpha(ch)) {
-            ch = tolower(ch);
-            ana1[n++] = ch;
-        }
+  /* 2つ目の単語を入力 */
+  printf("Enter second word: ");
+  i = 0;
+  while ((ch = getchar()) != '\n' && ch != EOF) {
+    if (i < WORD_LEN) {
+      word2[i++] = (char)ch;
     }
+  }
+  word2[i] = '\0';
 
-    if (are_anagrams(ana1, ana2))
-        printf("The words are anagrams.");
-    else
-        printf("The words are not anagrams.");
+  /* 判定と出力 */
+  if (are_anagrams(word1, word2)) {
+    printf("The words are anagrams.\n");
+  } else {
+    printf("The words are not anagrams.\n");
+  }
 
-    printf("\n");
-
-    return 0;
+  return 0;
 }
 
-bool are_anagrams(const char *word1, const char *word2)
-{
-    bool anagram = true;
-    char word3[strlen(word2)];
-    strcpy(word3, word2);
+/**
+ * 2つの文字列がアナグラムかどうかを判定する
+ * アルファベット以外の文字は無視し、大文字小文字を区別しない
+ */
+bool are_anagrams(const char *word1, const char *word2) {
+  int counts[26] = {0}; /* 各アルファベットの出現回数を記録 */
+  int i;
 
-    const char *p = word1;
-    char *q = word3;
-
-    if (strlen(p) == strlen(q)) {
-        while (*p) {
-            while (*q) {
-                if (*p == *q) {
-                    *q -= *p;
-                    anagram = true;
-                } else {
-                    anagram = false;
-                    q++;
-                }
-                p++;
-            }
-        }
-    } else {
-        anagram = false;
+  /* 1つ目の文字列をスキャンしてカウントアップ */
+  while (*word1) {
+    if (isalpha((unsigned char)*word1)) {
+      /* tolowerの結果から'a'を引くことで0-25のインデックスを得る */
+      counts[tolower((unsigned char)*word1) - 'a']++;
     }
-    return anagram;
+    word1++;
+  }
+
+  /* 2つ目の文字列をスキャンしてカウントダウン */
+  while (*word2) {
+    if (isalpha((unsigned char)*word2)) {
+      counts[tolower((unsigned char)*word2) - 'a']--;
+    }
+    word2++;
+  }
+
+  /* すべての要素が0であればアナグラム */
+  for (i = 0; i < 26; i++) {
+    if (counts[i] != 0) {
+      return false;
+    }
+  }
+
+  return true;
 }
