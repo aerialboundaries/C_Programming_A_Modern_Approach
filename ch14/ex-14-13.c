@@ -25,8 +25,28 @@ void f(void) {
 #if defined(N)
   printf("N is %d\n", N);
 #else
-  printf("N is undefeined\n");
+  printf("N is undefined\n");
 #endif
 }
 
+/* Answer to (a)
+ *
+#include <stdio.h>
+
+void f(void);
+
+int main(void) {
+  f();
+  return 0;
+}
+
+void f(void) {
+  printf("N is undefined\n");
+}
+ *
+ */
 /* (b) what will be the output of this program? */
+/* Answer to (b):
+ * N is undefined
+ *
+ */
