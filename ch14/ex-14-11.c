@@ -11,3 +11,14 @@
  * given a format string and the items to be displayed:
  * ERROR("Range error: index = %d\n", index);
  */
+
+#include <stdio.h>
+
+#define ERROR(fmt, index) fprintf(stderr, (fmt), index)
+
+int main(void) {
+  char fmt[] = "Range error: index = %d\n";
+  ERROR(fmt, 3);
+
+  return 0;
+}
