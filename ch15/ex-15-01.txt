@@ -1,0 +1,15 @@
+Section 15.1 listed several advantages of diviving a program into multiple
+source files.
+(a) Describe several other advantages.
+(b) Describe some disadvantages.
+
+My Answer:
+(a) : 
+  1. With "Makefile", the program can be compilied with the files
+     which are updated.
+  2. We can separate the problem to each files.
+
+(b) :
+  1. It will be difficult to understand the whole scheme of the program.
+  2. It will be difficult to track the external variables.
+  3. Debugging will be difficult.
