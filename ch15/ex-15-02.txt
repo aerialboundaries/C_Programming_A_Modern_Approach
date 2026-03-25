@@ -1,0 +1,14 @@
+C Programming A Modern Approach
+ex-15-02.txt
+
+Which of the following should not be put in a header file? Why not?
+(a) Functin prototypes
+(b) Function definitions
+(c) Macro definitions
+(d) Type definitions
+
+My Answer: (b)
+Function definitions should not be put in a header file.
+If a function definition appears in a header file that is included by
+two (or more) source files, the program can't be linked, since the 
+linker will see two copies of the function.
