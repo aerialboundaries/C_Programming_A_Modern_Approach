@@ -1,0 +1,16 @@
+C Programming A Modern Approach
+
+ex-15-03.txt
+2026-03-25
+
+We saw that writing #include <file> instead of #include "file" may not work
+if file is one that we've written. Would there be any problem with writing
+#include "file" instead of #include <file> if file is a system header?
+
+My Answer:
+In case of #include <file>, compiler search the system folder. In case of
+#include "file", compiler searches current folder. So, there will be
+problem.
+
+Revised Answer:
+Strictly speaking, it will often work because the compiler searches the system folder if the file is not found in the current folder. However, there is a problem with "name collision." If a file with the same name exists in the current folder, the compiler will include that file instead of the system header. Also, it is bad practice because it makes the code less readable.
