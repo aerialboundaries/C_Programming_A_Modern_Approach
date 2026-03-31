@@ -17,28 +17,56 @@
 /* My Answer (a) */
 #include <stdio.h>
 
+#define IS_LEAP(n) ((((n) % 400 == 0)) || ((n) % 4 == 0 && (n) % 100 != 0))
+
 struct date {
-    int month, day, year;
+  int month, day, year;
 };
 
 int day_of_year(struct date d);
 int compare_dates(struct date d1, struct date d2);
 
-int main(void)
-{
+int main(void) {
 
-    struct date d = { 6, 4, 1968 }, d1 = { 10, 14, 2011 }, d2 = { 9, 22, 2016 };
+  struct date d1 = {6, 4, 1968}, d2 = {10, 14, 2011}, d3 = {10, 14, 2011};
 
-    /// (a)
-    printf("The day of %4d/%02d/%02d is: %d\n", d.year, d.month, d.day,
-        day_of_year(d));
+  /// (a)
+  printf("The day of %4d/%02d/%02d is: %d\n", d1.year, d1.month, d1.day,
+         day_of_year(d1));
+
+  /// (b)
+  printf("%d\n", compare_dates(d1, d2));
+  printf("%d\n", compare_dates(d2, d3));
 }
 
-int day_of_year(struct date d)
-{
-    d.year % 4 = 0 || d.year % 400 = 0
+int day_of_year(struct date d) {
+  int days = 0;
+  int days_normal[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+  for (int i = 0; i < d.month - 1; i++) {
+    days += days_normal[i];
+  }
+  days += d.day;
+
+  if (IS_LEAP(d.year) && (d.month > 2)) {
+    days++;
+  }
+
+  return days;
 }
 
-int compare_dates(struct date d1, struct date d2)
-{
+int compare_dates(struct date d1, struct date d2) {
+  if (d1.year < d2.year)
+    return -1;
+  if (d1.year > d2.year)
+    return 1;
+  if (d1.month < d2.month)
+    return -1;
+  if (d1.month > d2.month)
+    return 1;
+  if (d1.day < d2.day)
+    return -1;
+  if (d1.day > d2.day)
+    return 1;
+  return 0;
 }
