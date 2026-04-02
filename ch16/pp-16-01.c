@@ -50,33 +50,53 @@ const struct dialing_code country_codes[] = {{"Argentina", 54},
                                              {"United States", 1},
                                              {"Vietnam", 84}};
 
+// int main(void) {
+//
+//   int code = 0;
+//
+//   for (;;) {
+//     printf("Enter country code: ");
+//     if (scanf("%d", &code) != 1) {
+//       printf("Invalid input\n");
+//       continue;
+//     }
+//     break;
+//   }
+//
+//   size_t len;
+//   len = sizeof(country_codes) / sizeof(country_codes[0]);
+//   size_t i;
+//   int found = 0;
+//
+//   for (i = 0; i < len; i++) {
+//     if (country_codes[i].code == code) {
+//       printf("Country: %s\n", country_codes[i].country);
+//       found = 1;
+//       break;
+//     }
+//   }
+//   if (found == 0)
+//     printf("There was no match.\n");
+//
+//   return 0;
+// }
+
+// KN
+#define COUNTRY_COUNT ((int)(sizeof(country_codes) / sizeof(country_codes[0])))
+
 int main(void) {
+  int code, i;
 
-  int code = 0;
+  printf("Enter dialing code:");
+  scanf("%d", &code);
 
-  for (;;) {
-    printf("Enter country code: ");
-    if (scanf("%d", &code) != 1) {
-      printf("Invalid input\n");
-      continue;
+  for (i = 0; i < COUNTRY_COUNT; i++)
+    if (code == country_codes[i].code) {
+      printf("The country code with dialing code %d is %s\n", code,
+             country_codes[i].country);
+      return 0;
     }
-    break;
-  }
 
-  size_t len;
-  len = sizeof(country_codes) / sizeof(country_codes[0]);
-  size_t i;
-  int found = 0;
-
-  for (i = 0; i < len; i++) {
-    if (country_codes[i].code == code) {
-      printf("Country: %s\n", country_codes[i].country);
-      found = 1;
-      break;
-    }
-  }
-  if (found == 0)
-    printf("There was no match.\n");
-
+  printf("No corresponding country found\n");
   return 0;
 }
