@@ -16,4 +16,6 @@ typedef struct {
   int dep, arr;
 } Flight;
 
+extern Flight flt[];
+
 #endif
