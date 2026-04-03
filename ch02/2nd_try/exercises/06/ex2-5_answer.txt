@@ -1,0 +1,82 @@
+Gemini:
+
+double underscore is not desireble?
+
+
+Yes, the use of a double underscore (__) in C is generally undesirable for names you define yourself because it is a reserved convention in C and C++ standards.
+
+Using names that begin with a double underscore can lead to undefined behavior and potential name collisions with identifiers used by the compiler or the standard libraries.
+
+Why Double Underscores (__) are Undesirable
+1. Reserved for Implementations
+The C standard reserves identifiers starting with two underscores (__) or beginning with a single underscore followed by an uppercase letter (_A to _Z) for use by the compiler and standard library implementation.
+
+Compiler/Library Use: The compiler often uses names like __FILE__, __LINE__, or internal macro/function names (e.g., __builtin_expect) that start with __.
+
+Preventing Collisions: If you define a variable as __my_variable, the compiler might later introduce a new feature or version where it also defines __my_variable, leading to a conflict that breaks your code.
+
+2. Standard Macros (All Caps)
+The C standard does define a few reserved identifiers that use the double underscore, but they are typically all-caps macros that you would reference but not define:
+
+__FILE__
+
+__LINE__
+
+__DATE__
+
+__STDC__
+
+3. Alternative: Single Underscore Prefix
+If you need a convention to mark a function or variable as internal or private to a specific source file, the standard C convention is to use a single underscore prefix (_).
+
+Example: static int _internal_function(void);
+
+While a single underscore followed by an uppercase letter is also reserved, a single underscore followed by a lowercase letter (_a to _z) is usually safe to use for internal variables and static functions.
+
+
+
+
+
+
+
+double underscores between words are not desireble either?
+
+
+That's an excellent follow-up question.
+
+The convention for reserved names in C applies to any identifier that begins with a double underscore (__), regardless of where the second underscore is placed. Therefore, names with double underscores between words are also generally undesirable for user-defined identifiers.
+
+For example, names like:
+
+my__variable
+
+calculate__sum
+
+Account__Balance
+
+...are all not recommended in standard C code.
+
+Why Avoid word__word Naming
+1. The Rule is About the Start
+The C Standard's rule on reserved names is very strict about what comes first. The primary forbidden patterns for user code are:
+
+Identifiers beginning with a double underscore (e.g., __myname).
+
+Identifiers beginning with a single underscore followed by an uppercase letter (e.g., _MyName).
+
+Since my__variable contains the forbidden sequence __, it is often grouped with reserved names. While the standard technically only reserves identifiers that begin with __, using __ anywhere is a very strong signal that the name is intended to be for internal compiler use.
+
+2. Ambiguity and Poor Readability
+Even if a specific compiler version doesn't reserve my__variable, using the double underscore is poor style:
+
+Signals Internal Use: It instantly confuses C developers who associate __ with internal, low-level system code.
+
+Readability: It adds unnecessary visual clutter. If you need two words, the conventional C style is snake_case (one underscore) or PascalCase (for types).
+
+Recommended Alternatives
+If you are trying to separate words in C, stick to these standard conventions:
+
+Convention	Example	Use Case
+Snake Case (Single Underscore)	my_variable_name	Local variables, function names.
+Pascal Case (No Underscore)	MyTypeName	Structs, enums, and typedefs.
+Screaming Snake Case (All Caps)	MAX_BUFFER_SIZE	Macros and constants.
