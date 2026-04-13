@@ -28,17 +28,11 @@ int main(void) {
     ; // Null statement to clear the rest of input ('\n')
 
   for (i = 1; i <= n; i++) {
-    if (i % 24) {
-      printf("%10d%10d\n", i, i * i);
-    } else {
-      printf("%10d%10d\n", i, i * i);
+    printf("%10d%10d\n", i, i * i);
+    if (i % 24 == 0) {
       printf("Press Enter to continue...\n");
-      if ((ch = getchar()) == '\n' || ch == EOF)
-        continue;
-      else
-        return 0;
+      ch = getchar();
     }
   }
-
   return 0;
 }
