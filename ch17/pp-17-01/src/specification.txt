@@ -1,0 +1,48 @@
+## Mainteining a Parts Database #PROGRAM
+倉庫にあるpartsの情報を管理するデータベースを作る。機能は下記の通り。
+- **Add a new part number, part name, and initial quantity on hand.** The
+  program must print an error message if the part is already in the
+  database or if the database is full.
+- **Given a part number, print the name of the part and the current
+  quantity on hand.** The program must print an error message if the part
+  number isn't in the database.
+- **Given a part number, change the quantity on hand.** The program must
+  print an error message if the part number isn't in the database.
+- **Print a table showing all information in the database.** Parts must be
+  displayed in the order in which they were entered.
+- **Terminate program execution.**t
+
+We'll use the codes i (insert), s(search), u(update), p(print) and q(quit)
+to represent these operations.
+
+**Session example:** Enter operation code: *i* Enter part number: *528*
+Enter part name: *Disk drive* Enter quantity on hand: *10*
+
+Enter operation code: *s* Enter part number: *528* Part name: Disk drive
+Quantity on hand: 10
+
+Enter operation code: *s* Enter part number: *914* Part not found.
+
+Enter operation code: *i* Enter part number: *914* Enter part name:
+*Printer cable* Enter quantity on hand: *5*
+
+Enter operation code: *u* Enter part number: *528* Enter Change in quantity
+on hand: *-2*
+
+Enter operation code: *s* Enter mart number: *528* Part name: Disk drive
+Quantity on hand: 8
+
+Enter operation code: *p* Part Number           Part Name
+Quantity on Hand 528              Disk drive
+8 914              Printer cable                           5
+
+Enter operation code: q
+
+We'll limit the size of database to 100 parts.  To keep track of the number
+of parts currently stored, we'll use a variable named num_parts.
+
+External variable (通常は良くない)を使って、inventory.c, readline.h,
+readline.cの3つを作る
+
+プログラムファイルは
+~/bin/c/C_Programming_A_Modern_Approach/ch16/inventory/を参照。
