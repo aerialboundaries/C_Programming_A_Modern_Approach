@@ -7,7 +7,7 @@ Write declarations for the following variables and functions:
 a character pointer.
 
     My answer:
-    char *(*p(Func(char *)));
+    char *(*p((char *)));
 
 (b) f is a function with two arguments: p, a pointer to a structure with tag t,
 and n, a long integer. f returns a pointer to a function that has no arguments
