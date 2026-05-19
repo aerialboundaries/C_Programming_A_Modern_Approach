@@ -22,7 +22,7 @@ int main(void) {
   destroy(s1);
 
   while (!is_empty(s2))
-    printf("Popped %d from s2/n", pop(s2));
+    printf("Popped %d from s2\n", pop(s2));
 
   push(s2, 3);
   make_empty(s2);
