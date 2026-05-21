@@ -211,3 +211,20 @@ int main(void)
 
     rturn 0;
 }
+
+コンパイルと実行方法
+WSL上のUbuntuのターミナルでビルドする際は、試したい実装ファイルをメイン関数と一緒にコンパイルしてください。
+
+        配列版を試す場合 :
+
+    Bash gcc
+    - Wall
+    - Wextra main.c queue_array.c
+    - o queue_array_test.
+        / queue_array_test 連結リスト版を試す場合 :
+
+    Bash gcc
+    - Wall
+    - Wextra main.c queue_list.c
+    - o queue_list_test.
+        / queue_list_test 配列版のラップアラウンド（循環）の処理や、連結リスト版の要素がゼロになるときのポインタ処理など、境界条件の挙動が非常に重要なポイントになります。コードの流れを追いながらnvimでビルドして、それぞれの特性を感じてみてくださいね。
