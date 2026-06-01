@@ -8,8 +8,8 @@ int main(void)
   Queue q1, q2;
   int n;
 
-  q1 = create();
-  q2 = create();
+  q1 = create(5);
+  q2 = create(3);
 
   // add data to q1
   printf("--- Testing q1 ---\n");
