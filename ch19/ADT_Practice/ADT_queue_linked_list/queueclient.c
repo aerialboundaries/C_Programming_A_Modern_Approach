@@ -4,8 +4,8 @@
 
 int main(void)
 {
-  Queue q1 = create(5);
-  Queue q2 = create(5);
+  Queue q1 = create();
+  Queue q2 = create();
 
   enqueue(q1, 10);
   enqueue(q1, 20);
