@@ -3,14 +3,12 @@
 
 #include "queueADT.h"
 
-struct node {
-  Item data;
-  struct node *next;
-};
+#define QUEUE_SIZE 10
 
 struct queue_type {
-  struct node *head;
-  struct node *tail;
+  Item contents[QUEUE_SIZE];
+  int head;
+  int tail;
   int size;
 };
 
@@ -25,15 +23,13 @@ Queue create(void)
   Queue q = malloc(sizeof(struct queue_type));
   if (q == NULL)
     terminate("Error in create: queue could not be created.");
-  q->head = q->tail = NULL;
+  q->head = q->tail = 0;
   q->size = 0;
-
   return q;
 }
 
 void destroy(Queue q)
 {
-  make_empty(q);
   free(q);
 }
 
@@ -44,47 +40,31 @@ bool is_empty(Queue q)
 
 bool is_full(Queue q)
 {
-  (void)q;
-  return false;
+  return q->size == QUEUE_SIZE;
 }
 
 void make_empty(Queue q)
 {
-  while (!is_empty(q))
-    dequeue(q);
+  q->head = q->tail = 0;
+  q->size = 0;
 }
 
 void enqueue(Queue q, Item i)
 {
   if (is_full(q))
     terminate("Error in enqueue: queue is full.");
-  struct node *new_node = malloc(sizeof(struct node));
-  if (new_node == NULL)
-    terminate("Error in enqueue: queue is full.");
-  new_node->data = i;
-  new_node->next = NULL;
-
-  if (is_empty(q)) {
-    q->head = new_node;
-  } else {
-    q->tail->next = new_node;
-  }
-  q->tail = new_node;
+  q->contents[q->tail] = i;
+  q->tail = (q->tail + 1) % QUEUE_SIZE;
   q->size++;
 }
 
 Item dequeue(Queue q)
 {
+  Item i;
   if (is_empty(q))
     terminate("Error in dequeue: queue is empty.");
-  struct node *old_node = q->head;
-  Item i = old_node->data;
-
-  q->head = old_node->next;
-  if (q->head == NULL)
-    q->tail = NULL;
-
-  free(old_node);
+  i = q->contents[q->head];
+  q->head = (q->head + 1) % QUEUE_SIZE;
   q->size--;
   return i;
 }
@@ -93,7 +73,7 @@ Item peek_head(Queue q)
 {
   if (is_empty(q))
     terminate("Error in peek_head: queue is empty.");
-  return q->head->data;
+  return q->contents[q->head];
 }
 
 Item peek_tail(Queue q)
@@ -101,5 +81,6 @@ Item peek_tail(Queue q)
   if (is_empty(q))
     terminate("Error in peek_tail: queue is empty.");
 
-  return q->tail->data;
+  int last_idx = (q->tail - 1 + QUEUE_SIZE) % QUEUE_SIZE;
+  return q->contents[last_idx];
 }
