@@ -67,6 +67,12 @@ int main(void)
     case 'p':
       print();
       break;
+    case 'd':
+      dump();
+      break;
+    case 'r':
+      restore();
+      break;
     case 'q':
       return 0;
     default:
@@ -220,7 +226,7 @@ void dump(void)
   }
 
   /* read inventory into s without next and write into output file one by one */
-  for (p = inventory; p->next != NULL; p = p->next) {
+  for (p = inventory; p != NULL; p = p->next) {
     p2.number = p->number;
     strncpy(p2.name, p->name, NAME_LEN + 1);
     p2.on_hand = p->on_hand;
@@ -228,9 +234,60 @@ void dump(void)
     fwrite(&p2, sizeof(struct part2), 1, out_fp);
   }
   fclose(out_fp);
-  printf("Inventory dumpped to %s\n", filename);
+  printf("Inventory dumped to %s\n", filename);
 }
 
 void restore(void)
 {
+  /* get filename to restore */
+  char filename[FILENAME_LEN];
+  printf("Enter file name to restore: ");
+  read_line(filename, FILENAME_LEN);
+
+  /* open dumped file */
+  FILE *in_fp = fopen(filename, "rb");
+  if (in_fp == NULL) {
+    fprintf(stderr, "Cannot open %s\n", filename);
+    return;
+  }
+
+  /* clear inventory */
+  struct part *p = inventory;
+  while (p != NULL) {
+    struct part *temp = p;
+    p = p->next;
+    free(temp);
+  }
+  inventory = NULL;
+
+  /* structure to read the file to restore */
+  struct part2 {
+    int number;
+    char name[NAME_LEN + 1];
+    int on_hand;
+  } p2;
+
+  struct part *last = NULL;
+
+  while (fread(&p2, sizeof(struct part2), 1, in_fp) == 1) {
+    struct part *new_node = malloc(sizeof(struct part));
+    if (new_node == NULL) {
+      printf("Memory full: Can't add more parts.\n");
+      break;
+    }
+
+    new_node->number = p2.number;
+    strcpy(new_node->name, p2.name);
+    new_node->on_hand = p2.on_hand;
+    new_node->next = NULL;
+
+    if (inventory == NULL) {
+      inventory = new_node;
+    } else {
+      last->next = new_node;
+    }
+    last = new_node;
+  }
+  fclose(in_fp);
+  printf("Inventory restored from %s\n", filename);
 }
