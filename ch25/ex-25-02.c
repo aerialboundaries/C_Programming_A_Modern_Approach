@@ -13,6 +13,9 @@ assuming that multibyte characters are encoded using Shift-JIS in the current lo
 (d) "\x8a\x60\x92\x74\x41"
 
 My Answer:
-(a) 
+(a) 0
+(b) -1
+(c) -1
+(d) 0
 
 */
