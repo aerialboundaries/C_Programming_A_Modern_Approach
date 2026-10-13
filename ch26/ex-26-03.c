@@ -10,18 +10,58 @@ an int argument, and each %s indicates a char * (string) argument.
 void my_printf(const char *format, ...)
 {
   va_list ap;
-  const char *p;
+  const char *p, *str;
   int digit, i, power, temp;
 
   va_start(ap, format);
 
   for (p = format; *p != '\0'; p++) {
     if (*p != '%') {
-      purchar(*p);
+      putchar(*p);
       continue;
     }
-  }
 
+    /* check the next char of % */
+    p++;
+
+    switch (*p) {
+    case 'd':
+      i = va_arg(ap, int);
+      if (i < 0) {
+        putchar('-');
+        i = -i;
+      }
+
+      temp = i;
+      power = 1;
+      while (temp > 9) {
+        temp /= 10;
+        power *= 10;
+      }
+
+      do {
+        digit = i / power;
+        putchar(digit + '0');
+        i -= digit * power;
+        power /= 10;
+      } while (power > 0);
+      break;
+
+    case 's':
+      str = va_arg(ap, char *);
+      while (*str != '\0') {
+        putchar(*str);
+        str++;
+      }
+      break;
+
+    default:
+      putchar('%');
+      if (*p != '\0')
+        putchar(*p);
+      break;
+    }
+  }
   va_end(ap);
 }
 
