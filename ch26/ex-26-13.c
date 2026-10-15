@@ -15,10 +15,26 @@ few more:
 Give strftime strings that correspond to each of these formats.
 */
 
+#include <stdio.h>
 #include <time.h>
 
 int main(void)
 {
   time_t cur_time = time(NULL);
-  struct tm *local = localtime(&cur_time);
+  struct tm *ptr = localtime(&cur_time);
+  char date_time[21];
+
+  // (a)
+  strftime(date_time, sizeof(date_time), "%Y-%j", ptr);
+  puts(date_time);
+
+  // (b)
+  strftime(date_time, sizeof(date_time), "%Y-W%V-%u", ptr);
+  puts(date_time);
+
+  // (c)
+  strftime(date_time, sizeof(date_time), "%Y-%m-%dT%H:%M:%S", ptr);
+  puts(date_time);
+
+  return 0;
 }
