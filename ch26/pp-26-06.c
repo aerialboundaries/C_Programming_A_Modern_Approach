@@ -16,22 +16,27 @@ int main(void)
 {
   time_t cur_time = time(NULL);
   struct tm *ptr;
-  char ampm;
-  char a[21];
+  ptr = localtime(&cur_time);
+  char a[64];
   char b[21];
-  char c[21];
+  char c1[21];
+  char c2[21];
+  int hour = ptr->tm_hour;
+  if (hour > 12)
+    hour -= 12;
 
   // (a)
-  strftime(a, sizeof(a), "%A, %B %e, %Y %I:%M", ptr);
-  printf("%s", a);
-  if (ptr->tm_hour < 12)
-    putchar('a');
-  else
-    putchar('p');
-
-  printf("\n");
+  strftime(a, sizeof(a), "%A, %B %d, %Y %I:%M", ptr);
+  printf("%s%c\n", a, ptr->tm_hour <= 11 ? 'a' : 'p');
 
   // (b)
-  strftime(b, sizeof(b), "%a, %e %b %C %H:%M", ptr);
-  printf("%s\n", b);
+  strftime(b, sizeof(b), "%a, %d %b %y %H:%M", ptr);
+  puts(b);
+
+  // (c)
+  strftime(c1, sizeof(c1), "%D ", ptr);
+  strftime(c2, sizeof(c2), "%I:%M:%S %p", ptr);
+  printf("%s %s\n", c1, c2[0] == '0' ? &c2[1] : c2);
+
+  return 0;
 }
