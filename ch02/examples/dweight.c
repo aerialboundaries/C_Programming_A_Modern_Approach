@@ -14,6 +14,9 @@ int main(void)
   length = 12;
   width = 10;
   volume = height * length * width;
+  /* volume weight = volume / 166
+   * in order to round up, use (a + b -1) / b
+   */
   weight = (volume + 165) / 166;
 
   printf("Dimensions: %dx%dx%d\n", length, width, height);
@@ -22,4 +25,3 @@ int main(void)
 
   return 0;
 }
-
