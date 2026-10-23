@@ -7,12 +7,11 @@ For each of the following pairs of scanf format strings, indicate whether or not
 (c) "%f"         versus "%f "
 (d) "%f,%f"      versus "%f, %f"
 
-My Answer:
+Answer:
 (a) Equivalent
-(b) Not equivalent.  should be "%d-%d-%d"
+(b) Equivalent 
 (c) Not equivalent.  should be "%f"
 (d) Equivalent.
-了解しました。日本語で回答します。
 
 💻 scanf フォーマット文字列の等価性
 あなたの回答は、C言語の scanf の空白文字処理ルールを理解する上で非常に優れていますが、特に(b)の等価性の判断に修正が必要です。

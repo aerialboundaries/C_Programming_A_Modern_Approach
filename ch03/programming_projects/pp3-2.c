@@ -12,24 +12,29 @@
  * right justified. Allow dollar amounts up to $9999.99.  Hint: Use tabs so to
  * line up the columns.
  */
-
 #include <stdio.h>
 
-int main(void) {
+int main(void)
+{
   int item_number;
   float unit_price;
   int month, date, year;
 
   printf("Enter item number: ");
   scanf("%d", &item_number);
+
   printf("Enter unit price: ");
   scanf("%f", &unit_price);
+
   printf("Enter purchase date (mm/dd/yyyy): ");
   scanf("%d/%d/%d", &month, &date, &year);
 
+  printf("\n");
   printf("Item\t\tUnit\t\tPurchase\n");
   printf("\t\tPrice\t\tDate\n");
-  printf("%d\t\t$%4.2f\t\t%2d/%2d/%4d\n", item_number, unit_price, month, date,
+
+  // 日付の %2d を %d に変更し、見栄えをすっきりさせています
+  printf("%-d\t\t$%7.2f\t%d/%d/%d\n", item_number, unit_price, month, date,
          year);
 
   return 0;
