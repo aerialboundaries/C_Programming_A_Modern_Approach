@@ -19,17 +19,38 @@
 
 #include <stdio.h>
 
-int main(void) {
-  int number, d1, d2, d3;
+void print_reversed_integer(int n)
+{
+  if (n == 0) {
+    printf("0\n");
+    return;
+  }
 
-  printf("Enter a three digit number: ");
-  scanf("%d", &number);
+  // in case of negative number
+  if (n < 0) {
+    putchar('-');
+    n = -n;
+  }
 
-  d1 = number / 100;
-  d2 = number % 100 / 10;
-  d3 = number % 10;
+  while (n > 0) {
+    printf("%d", n % 10);
+    n /= 10;
+  }
+  printf("\n");
+}
 
-  printf("The reversal is: %d%d%d\n", d3, d2, d1);
+int main(void)
+{
+  int n;
+
+  printf("Enter a integer: ");
+  if (scanf("%d", &n) != 1) {
+    fprintf(stderr, "Error: Invalid input format.\n");
+    return 1;
+  }
+
+  printf("The reversal is: ");
+  print_reversed_integer(n);
 
   return 0;
 }

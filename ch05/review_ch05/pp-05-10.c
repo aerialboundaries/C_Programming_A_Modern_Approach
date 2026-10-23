@@ -1,6 +1,6 @@
 /* C Programming A Modern Approach pp5-10.c
  *
- * Uisng the switch statement, write a progra that converts t numerical
+ * Using the switch statement, write a program that converts a numerical
  * grade into a letter grade:
  *
  * Enter numerical grade: 84
@@ -15,33 +15,35 @@
 
 #include <stdio.h>
 
-int main(void) {
-
-  int num_grade;
+int main(void)
+{
+  int num;
 
   printf("Enter numerical grade: ");
-  if (scanf("%d", &num_grade) != 1 || num_grade < 0 || num_grade > 100) {
-    printf("Illegal grade\n");
+  if ((scanf("%d", &num) != 1) || num < 0 || num > 100) {
+    fprintf(stderr, "wrong grade\n");
     return 1;
   }
 
-  printf("Letter grade: ");
+  num /= 10;
 
-  switch (num_grade / 10) {
+  switch (num) {
   case 10:
   case 9:
-    printf("A\n");
+    printf("Letter grade: A\n");
     break;
   case 8:
-    printf("B\n");
+    printf("Letter grade: B\n");
     break;
   case 7:
-    printf("C\n");
+    printf("Letter grade: C\n");
     break;
   case 6:
-    printf("D\n");
+    printf("Letter grade: D\n");
+    break;
   default:
-    printf("F\n");
+    printf("Letter grade: F\n");
+    break;
   }
 
   return 0;

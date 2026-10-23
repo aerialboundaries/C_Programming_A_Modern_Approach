@@ -1,7 +1,8 @@
 /* C Programming A Modern Approach pp5-2.c
  * 2026-04-07
+ * rev 2026-10-23
  *
- * Write a program that asks the user for a 24-hou4 time, then displays the time
+ * Write a program that asks the user for a 24-hour time, then displays the time
  * in 12-hour form:
  *
  * Enter a 24-hour time: 21:11
@@ -12,23 +13,26 @@
 
 #include <stdio.h>
 
-int main(void) {
-  int h, m;
+int main(void)
+{
+  int hour, minute, hour12;
 
-  printf("Enter a 24-hour time: ");
-  scanf("%d:%d", &h, &m);
-
-  printf("Equivalent 12-hour time: ");
-
-  if (h == 0) {
-    printf("%2d:%.2d AM\n", 12, m);
-  } else if (h < 12) {
-    printf("%2d:%.2d AM\n", h, m);
-  } else if (h == 12) {
-    printf("%2d:%.2d PM\n", h, m);
-  } else {
-    printf("%2d:%.2d PM\n", h % 12, m);
+  for (;;) {
+    printf("Enter a 24-hour time: ");
+    if ((scanf("%d:%d", &hour, &minute) != 2) || (hour < 0 || hour > 23) ||
+        (minute < 0 || minute > 59)) {
+      fprintf(stderr, "Wrong input. Enter hour:minute.\n");
+      while (getchar() != '\n')
+        ;
+    } else {
+      break;
+    }
   }
+
+  hour12 = ((hour % 12) == 0 ? 12 : (hour > 12 ? hour - 12 : hour));
+
+  printf("Equivalent 12-hour time: %2d:%02d %s\n", hour12, minute,
+         (hour < 12) ? "AM" : "PM");
 
   return 0;
 }
