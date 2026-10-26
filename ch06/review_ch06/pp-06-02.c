@@ -1,5 +1,5 @@
 /* C Programming A Modern Approach pp6-02.c
- * 2025-11-6 revisit 2026-04-08
+ * 2025-11-6 revisit 2026-04-08 2026-10-26
  *
  * Write a program that asks the user to enter two integers,
  * then calculates and displays their greatest common divisor (GCD):
@@ -17,19 +17,35 @@
 
 #include <stdio.h>
 
-int main(void) {
-  int m, n, tmp;
+int gcd(int m, int n);
 
-  printf("Enter two integers: ");
-  scanf("%d%d", &m, &n);
+int main(void)
+{
+  int m, n;
 
-  while (n != 0) {
-    tmp = n;
-    n = m % n;
-    m = tmp;
+  for (;;) {
+    printf("Enter two integers: ");
+    if (scanf("%d %d", &m, &n) != 2) {
+      fprintf(stderr, "Enter two integers.\n");
+      continue;
+    }
+    printf("Greatest common divisor: %d\n", gcd(m, n));
+    return 0;
   }
+}
 
-  printf("Greatest common divisor : %d\n", m);
+int gcd(int m, int n)
+{
+  int temp;
+
+  for (;;) {
+    if (n == 0)
+      return m;
+
+    temp = m % n;
+    m = n;
+    n = temp;
+  }
 
   return 0;
 }

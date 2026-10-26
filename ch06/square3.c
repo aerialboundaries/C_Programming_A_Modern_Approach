@@ -6,11 +6,12 @@
 
 #include <stdio.h>
 
-int main(void) {
+int main(void)
+{
   int i, n, odd, square;
 
-  printf("jhis program prints a table of squares.\n");
-  printf("Enter number of entires in table: ");
+  printf("This program prints a table of squares.\n");
+  printf("Enter number of entries in table: ");
   scanf("%d", &n);
 
   i = 1;

@@ -3,7 +3,8 @@
 
 #include <stdio.h>
 
-int main(void) {
+int main(void)
+{
   float commision, value;
 
   printf("Enter value of trade: ");
@@ -17,7 +18,7 @@ int main(void) {
     commision = 76.00f + .0034f * value;
   else if (value < 50000.00f)
     commision = 100.00f + .0022f * value;
-  else if (value < 50000.00f)
+  else if (value < 500000.00f)
     commision = 155.00f + .0011f * value;
   else
     commision = 255.00f + .0009f * value;

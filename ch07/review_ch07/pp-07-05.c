@@ -1,8 +1,8 @@
 /* C Programming A Modern Approach p07-05.c
- * 2025-11-17 revisit 2026-04-13
+ * 2025-11-17 revisit 2026-04-13 2026-10-26
  *
  * In the SCRABBLE Crossword Game, players form words using small tiles,
- * eai containing a letter and a face value. The face value varies
+ * each containing a letter and a face value. The face value varies
  * from one letter to another, based on the letter's rarity. (Here
  * are the face values: 1: AEILNORSTU, 2: DG, 3: BCMP, 4: FHVWY,
  * 5: K, 8: JX, 10: QZ.) Write a program that computes the value of a word
@@ -18,35 +18,32 @@
 #include <ctype.h>
 #include <stdio.h>
 
-int main(void) {
-  int sum = 0, ch;
+int main(void)
+{
+  int ch, sum = 0;
 
   printf("Enter a word: ");
-
   while ((ch = getchar()) != '\n' && ch != EOF) {
-    switch (toupper(ch)) {
-    case 'A':
-    case 'E':
-    case 'I':
-    case 'L':
-    case 'N':
-    case 'O':
-    case 'R':
-    case 'S':
-    case 'T':
-    case 'U':
-      sum += 1;
-      break;
+    ch = toupper(ch);
+    if (ch < 'A' || ch > 'Z') {
+      fprintf(stderr, "words should be alphabets.\n");
+      return 1;
+    }
+
+    switch (ch) {
+
     case 'D':
     case 'G':
       sum += 2;
       break;
+
     case 'B':
     case 'C':
     case 'M':
     case 'P':
       sum += 3;
       break;
+
     case 'F':
     case 'H':
     case 'V':
@@ -54,22 +51,27 @@ int main(void) {
     case 'Y':
       sum += 4;
       break;
+
     case 'K':
       sum += 5;
       break;
+
     case 'J':
     case 'X':
       sum += 8;
       break;
+
     case 'Q':
     case 'Z':
       sum += 10;
       break;
+
     default:
+      sum += 1;
       break;
     }
   }
-  printf("Scrabble value: %d\n", sum);
 
+  printf("Scrabble value : %d\n", sum);
   return 0;
 }

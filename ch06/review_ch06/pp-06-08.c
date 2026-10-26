@@ -20,24 +20,36 @@
  * the loop, an if statement tests whether i is the last day in a week; if
  * so, it prints a new-line character.
  */
+
 #include <stdio.h>
 
 int main(void)
 {
-    int days_in_month, start_day;
+  int n, day;
 
-    printf("Enter number of days in month: ");
-    scanf("%d", &days_in_month);
-    printf("Enter starting day of the week (1=Sun, 7=Sat): ");
-    scanf("%d", &start_day);
+  printf("Enter number of days in month: ");
+  if (scanf("%d", &n) != 1 || n < 1 || n > 31) {
+    fprintf(stderr, "The number shoud be 1 - 31\n");
+    return 1;
+  }
 
-    for (int i = 1; i < start_day; i++)
-        printf("%2c ", ' ');
+  printf("Enter starting day of the week (1=Sun, 7=Sat): ");
+  if (scanf("%d", &day) != 1 || day < 1 || day > 7) {
+    fprintf(stderr, "The number shoud be 1 - 7\n");
+    return 1;
+  }
 
-    for (int i = 1; i <= days_in_month; i++) {
-        printf("%2d ", i);
-        if ((start_day + i - 1) % 7 == 0)
-            printf("\n");
-    }
-    return 0;
+  for (int i = 1; i <= day - 1; i++)
+    printf("   ");
+
+  for (int i = 1; i <= n; i++) {
+    if ((day - 1 + i) % 7 == 0)
+      printf("%2d\n", i);
+    else
+      printf("%2d ", i);
+  }
+
+  putchar('\n');
+
+  return 0;
 }
