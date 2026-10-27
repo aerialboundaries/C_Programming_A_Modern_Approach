@@ -26,49 +26,56 @@
 
 #include <stdio.h>
 
-#define NUM_STUDENT 5
-#define NUM_QUIZ 5
+#define STUDENTS 5
+#define QUIZ 5
 
-int main(void) {
+int main(void)
+{
+  int matrix[STUDENTS][QUIZ] = { 0 };
+  int ch, student_total = 0, quiz_total = 0, quiz_high = 0, quiz_low = 0;
+  double student_avg, quiz_avg;
 
-  int a[NUM_STUDENT][NUM_QUIZ] = {0}, student_total[NUM_QUIZ] = {0},
-      quiz_total[NUM_STUDENT] = {0}, i, j;
-  int high[NUM_QUIZ], low[NUM_QUIZ];
-  double avg_quiz[NUM_QUIZ];
-
-  for (i = 0; i < NUM_STUDENT; i++) {
-    printf("Enter grades of stduent %d: ", i + 1);
-    for (j = 0; j < NUM_QUIZ; j++) {
-      scanf(" %d", &a[i][j]);
-      student_total[i] += a[i][j];
-      quiz_total[j] += a[i][j];
+  for (int i = 0; i < STUDENTS; i++) {
+    printf("Enter student %d's grade: ", i + 1);
+    for (int j = 0; j < QUIZ; j++) {
+      scanf("%d", &matrix[i][j]);
     }
+    while ((ch = getchar()) != '\n' && ch != EOF)
+      ; // delete '\n'
   }
-
   printf("\n");
 
-  for (i = 0; i < 5; i++)
-    printf("student %d :  Total Score %d Average Score %.2f\n", i + 1,
-           student_total[i], (double)student_total[i] / NUM_QUIZ);
-  printf("\n");
+  for (int i = 0; i < STUDENTS; i++) {
+    for (int j = 0; j < QUIZ; j++)
+      student_total += matrix[i][j];
+    student_avg = (double)student_total / QUIZ;
 
-  for (j = 0; j < 5; j++) {
-    avg_quiz[j] = (double)quiz_total[j] / NUM_STUDENT;
-    low[j] = high[j] = a[0][j];
+    printf("Student %d's total score   : %4d\n"
+           "             average score : %4.2f\n\n",
+           i + 1, student_total, student_avg);
+    student_total = 0; // reset for the next student
   }
 
-  for (j = 0; j < 5; j++) {
-    for (i = 1; i < NUM_STUDENT; i++) {
-      low[j] = a[i][j] < low[j] ? a[i][j] : low[j];
-      high[j] = a[i][j] > high[j] ? a[i][j] : high[j];
+  for (int j = 0; j < QUIZ; j++) {
+    quiz_total = 0;
+    // initialize with the 1st students grade
+    quiz_low = matrix[0][j];
+    quiz_high = matrix[0][j];
+
+    for (int i = 0; i < STUDENTS; i++) {
+      quiz_total += matrix[i][j];
+      if (matrix[i][j] < quiz_low)
+        quiz_low = matrix[i][j];
+      if (matrix[i][j] > quiz_high)
+        quiz_high = matrix[i][j];
     }
+    quiz_avg = (double)quiz_total / QUIZ;
+    printf("Quiz %d's average score : %4.2f\n"
+           "          high score    : %4d"
+           "          low score     : %4d\n",
+           j + 1, quiz_avg, quiz_high, quiz_low);
+    quiz_total = 0;
   }
-
-  for (j = 0; j < NUM_QUIZ; j++)
-    printf("Quiz %d : Average %.2f High score %d Low score %d\n", j + 1,
-           avg_quiz[j], high[j], low[j]);
-
-  printf("\n");
 
   return 0;
 }

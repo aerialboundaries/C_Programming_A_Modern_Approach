@@ -1,8 +1,8 @@
 /* C Programming A Modern Approach
  * pp08-05.c
- * 2025-11-26 revisted 2026-04-17
+ * 2025-11-26 revisted 2026-04-17 2026-10-27
  *
- * Modify the interest.c program of Section 8.1 so that it componds interest
+ * Modify the interest.c program of Section 8.1 so that it compounds interest
  * monthly instead of annually. The form of the output should'nt chage;
  * the balance should still be shown at annual intervals. */
 
@@ -11,9 +11,10 @@
 #define NUM_RATES ((int)(sizeof(value) / sizeof(value[0])))
 #define INITIAL_BALANCE 100.00
 
-int main(void) {
+int main(void)
+{
 
-  int i, low_rate, month, num_years, year;
+  int i, low_rate, num_years, year;
   double value[5];
 
   printf("Enter interest rate: ");
@@ -31,8 +32,9 @@ int main(void) {
   for (year = 1; year <= num_years; year++) {
     printf("%3d    ", year);
     for (i = 0; i < NUM_RATES; i++) {
-      for (month = 1; month <= 12; month++)
-        value[i] += ((double)(low_rate + i) / 12) / 100.0 * value[i];
+      for (int m = 0; m < 12; m++) {
+        value[i] += ((double)(low_rate + i) / 12 / 100.0 * value[i]);
+      }
       printf("%7.2f", value[i]);
     }
     printf("\n");
