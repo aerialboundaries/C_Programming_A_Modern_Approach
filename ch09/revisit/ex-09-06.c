@@ -14,21 +14,21 @@ int digit(int n, int k);
 int main(void)
 {
   printf("%d\n", digit(829, 1));
+  printf("%d\n", digit(829, 2));
+  printf("%d\n", digit(829, 3));
+  printf("%d\n", digit(829, 4));
 
   return 0;
 }
 
 int digit(int n, int k)
 {
-  int count;
-  while (n / 10 > 0) {
+  for (int i = 1; i < k; i++) {
     n /= 10;
+    if (n == 0) {
+      return 0;
+    }
   }
 
-  for (int i = k; i >= 1; i--) {
-    divisor *= 10;
-    n /= divisor;
-  }
-
-  return n % divisor;
+  return n % 10;
 }
