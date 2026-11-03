@@ -1,6 +1,6 @@
 /* C Programming A Modern Approach
  * ex-11-07.c
- * 2022-02-13
+ * 2026-02-13 2026-11-03
  *
  * Write the follwing function:
  *
@@ -12,8 +12,9 @@
  * within that month (1-31).
  */
 
-void split_date(int day_of_year, int year, int *month, int *day) {
-  int days_in_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+void split_date(int day_of_year, int year, int *month, int *day)
+{
+  int days_in_month[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
   if (year % 400 == 0 || year % 4 == 0 && year % 100 != 0)
     days_in_month[1] = 29;
 

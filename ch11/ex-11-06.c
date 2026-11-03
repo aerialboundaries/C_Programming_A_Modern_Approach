@@ -1,6 +1,6 @@
 /* C Programming A Modern Approach
  * ex-11-06.c
- * 2022-02-12
+ * 2022-02-12 2026-11-03
  *
  * Write the following function:
  *
@@ -11,7 +11,8 @@
  * to by largest and secon_largest, respectively.
  */
 
-void find_two_largest(int a[], int n, int *largest, int *second_largest) {
+void find_two_largest(int a[], int n, int *largest, int *second_largest)
+{
   int i;
 
   if (a[0] > a[1]) {

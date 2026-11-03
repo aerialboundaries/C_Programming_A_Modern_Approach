@@ -1,8 +1,8 @@
 /* C Programming A Modern Approach
  * ex-11-02.c
- * 2022-02-12
+ * 2026-02-12 2026-11-03
  *
- * If i is an int variable and p and q are pointers to int, which fo the
+ * If i is an int variable and p and q are pointers to int, which of the
  * following assgnments are legal?
  *
  * (a) p = i;     (d) p = &q;     (g) p = *q;
