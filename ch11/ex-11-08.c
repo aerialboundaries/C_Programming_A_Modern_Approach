@@ -1,6 +1,6 @@
 /* C Programming A odern Approach
  * ex-11-08.c
- * 2022-02-13
+ * 2026-02-13 2026-11-03
  *
  * Write the following function:
  *
@@ -10,7 +10,8 @@
  * to the array's largest element.
  */
 
-int *find_largest(int a[], int n) {
+int *find_largest(int a[], int n)
+{
   int *largest = &a[0];
 
   for (int i = 1; i < n; i++) {
