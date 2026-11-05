@@ -1,6 +1,6 @@
 /* C Programming A Modern Approach
  * pp-10-05.c
- * 2026-02-11
+ * 2026-02-11 2026-10-29
  *
  * Modify the poker.c program of Section 10.5 by allowing "ace-low"
  * straights (ace, two, three, four, five). */
@@ -16,7 +16,7 @@
 /* external variables */
 int num_in_rank[NUM_RANKS];
 int num_in_suit[NUM_SUITS];
-bool ace_low, straight, flush, four, three;
+bool straight, flush, four, three;
 int pairs; /* can be 0, 1, or 2 */
 
 /* prototypes */
@@ -27,7 +27,8 @@ void print_result(void);
 /*************************************************************************
  * main: Calls read_cards, analyze_hand, and print_result repeatedly.    *
  * ***********************************************************************/
-int main(void) {
+int main(void)
+{
   for (;;) {
     read_cards();
     analyze_hand();
@@ -40,7 +41,8 @@ int main(void) {
  * read_dards: Reads the cards into the external variables num_in_rank   *
  *             and num_in_suit; checks for bad cards and duplicate cards.*
  * ***********************************************************************/
-void read_cards(void) {
+void read_cards(void)
+{
   bool card_exists[NUM_RANKS][NUM_SUITS];
   char ch, rank_ch, suit_ch;
   int rank, suit;
@@ -157,7 +159,8 @@ void read_cards(void) {
  * pairs; stores the results into the external variables straight, flush,
  * four, three, and pairs.
  * ***********************************************************************/
-void analyze_hand(void) {
+void analyze_hand(void)
+{
   int num_consec = 0;
   int rank, suit;
   straight = false;
@@ -171,24 +174,23 @@ void analyze_hand(void) {
     if (num_in_suit[suit] == NUM_CARDS)
       flush = true;
 
-  /* check for ace-low */
-  if (num_in_rank[12] == 1) {
-    for (rank = 0; rank < (NUM_CARDS - 1) && num_in_rank[rank] > 0; rank++)
-      num_consec++;
-    if (num_consec == (NUM_CARDS - 1)) {
-      straight = true;
-    }
-  }
-
   /* check for straight */
   rank = 0;
-  num_consec = 0;
   while (num_in_rank[rank] == 0)
     rank++;
   for (; rank < NUM_RANKS && num_in_rank[rank] > 0; rank++)
     num_consec++;
   if (num_consec == NUM_CARDS) {
     straight = true;
+  }
+
+  if (num_in_rank[12] == 1) {
+    num_consec = 1;
+    for (int i = 0; i < 4; i++)
+      if (num_in_rank[i] == 1)
+        num_consec++;
+    if (num_consec == NUM_CARDS)
+      straight = true;
   }
 
   /* check for 4-of-a-kind, 3-of-a-kind, and pairs */
@@ -206,7 +208,8 @@ void analyze_hand(void) {
  * print_result: Prints the classification of the hand, based on the
  *               variables straight, flush, four, three, and pairs.
  *************************************************************************/
-void print_result(void) {
+void print_result(void)
+{
   if (straight && flush)
     printf("Straight flush");
   else if (four)
