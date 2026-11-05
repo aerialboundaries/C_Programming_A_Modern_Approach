@@ -1,21 +1,14 @@
-/* C Programming A Modern Approach
- * ex-12-01.c
- * 2026-02-16
- *
- * Suppose that the following declarations are in effect:
- * int a[] = {5, 15, 34, 54, 14, 2, 52, 72};
- * int *p = &a[1], *q = &a[5];
- *
- * (a) What is the value of *(p+3)?
- * (b) what is the value of *(q-3)?
- * (c) What is the value of q - p?
- * (d) Is the condition p < q true or false?
- * (e) Is the condition *p < *q true of false?
- *
- * My answer: 
- * (a) 14
- * (b) 34
- * (c) 4
- * (d) true
- * (e) false
- */
+/*
+Suppose that high, low, and middle are all pointer variables of the same
+type, and that low and high point to elements of an array. Why is the following
+statement illegal, and how could it be fixed? middle = (low + high) / 2;
+
+Ansewer:
+The statement is illegal because pointers cannot be added. Here's a legal
+statement that has the desired effect:
+
+middle = low + (high - low) / 2;
+The value of (high - low) / 2 is an integer, not a pointer, so it can legally be
+added to low.
+
+*/
