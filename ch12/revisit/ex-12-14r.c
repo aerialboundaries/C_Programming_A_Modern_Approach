@@ -1,0 +1,62 @@
+/* C Programming A Modern Approach
+ * ex-12-14.c
+ * 2026-02-17
+ *
+ * Assume that the following array contains a week's worth of hourly temeprature
+ * readings, with each row containing the readings for one day:
+ *
+ * int temperatures[7][24];
+ *
+ * Write a statement that uses the search function (see Exercise 7) to search
+ * the entire temperatures array for the value 32.
+ */
+#include <stdbool.h>
+#include <stdio.h>
+
+#define DAYS 7
+#define HOURS 24
+
+bool search(const int *a, int n, int key);
+
+int main(void) {
+
+  int temperatures[7][24] = {// 1日目
+                             {15, 14, 13, 12, 12, 13, 15, 17, 19, 21, 22, 23,
+                              24, 24, 23, 22, 21, 19, 18, 17, 16, 16, 15, 15},
+                             // 2日目
+                             {14, 14, 13, 12, 11, 12, 14, 16, 18, 20, 22, 23,
+                              25, 25, 24, 23, 21, 20, 19, 17, 16, 15, 15, 14},
+                             // 3日目
+                             {14, 13, 12, 12, 11, 12, 13, 15, 17, 19, 21, 22,
+                              23, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 14},
+                             // 4日目
+                             {13, 13, 12, 11, 10, 11, 13, 15, 32, 19, 20, 21,
+                              22, 22, 21, 20, 19, 18, 17, 16, 15, 14, 14, 13},
+                             // 5日目
+                             {13, 12, 11, 10, 9,  10, 12, 14, 16, 18, 20, 21,
+                              23, 23, 22, 21, 20, 18, 17, 16, 15, 14, 14, 13},
+                             // 6日目
+                             {13, 12, 12, 11, 11, 12, 13, 15, 17, 19, 21, 22,
+                              24, 24, 32, 22, 21, 20, 19, 17, 16, 16, 15, 14},
+                             // 7日目
+                             {14, 14, 13, 12, 12, 13, 15, 17, 19, 21, 23, 24,
+                              25, 26, 25, 24, 22, 21, 19, 18, 17, 16, 16, 15}};
+
+  /* statement */
+  if (search(temperatures[0], DAYS * HOURS, 32)) {
+    printf("Found '32'.\n");
+  } else {
+    printf("Not found '32'.\n");
+  }
+  return 0;
+}
+
+bool search(const int *a, int n, int key) {
+  const int *p;
+  for (p = a; p < a + n; p++) {
+    if (*p == key) {
+      return true;
+    }
+  }
+  return false;
+}
