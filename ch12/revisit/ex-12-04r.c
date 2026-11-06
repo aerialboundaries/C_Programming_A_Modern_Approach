@@ -9,24 +9,25 @@
  */
 
 #include <stdbool.h>
-#define STACK SIZE 100
+#include <stdio.h>
+#define STACK_SIZE 100
 
 /* external variables */
 int contents[STACK_SIZE];
-int top = 0;
+int *top_ptr = contents;
 
-void make_empty(void) { top = 0; }
+void make_empty(void) { top_ptr = contents; }
 
-bool is_empty(void) { return top == 0; }
+bool is_empty(void) { return top_ptr == contents; }
 
-bool is full(void) { return top == STACK_SIZE; }
+bool is_full(void) { return top_ptr == contents + STACK_SIZE; }
 
 void push(int i)
 {
   if (is_full())
     stack_overflow();
   else
-    contents[top++] = i;
+    *top_ptr++ = i;
 }
 
 int pop(void)
@@ -34,5 +35,19 @@ int pop(void)
   if (is_empty())
     stack_underflow();
   else
-    return contents[--top];
+    return --*top_ptr;
+}
+
+int main(void)
+{
+  make_empty();
+
+  push(10);
+  push(20);
+  push(30);
+
+  printf("Popped: %d\n", pop());
+  printf("Popped: %d\n", pop());
+
+  return 0;
 }
