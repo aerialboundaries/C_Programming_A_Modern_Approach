@@ -3,19 +3,20 @@
  * 2026-03-06
  *
  * Write a propgram named sum.c that adds up its command-line arguments,
- * which are assumed to be integers. Running the progaram by typin
+ * which are assumed to be integers. Running the progaram by typing
  * sum 8 24 62
- * shoudl produce the following output;
+ * should produce the following output;
  * Total: 94
  *
- * Hint Use the atoi function to convert each comman-line argument fron
- * storing to inter form.
+ * Hint Use the atoi function to convert each command-line argument from
+ * string to integer form.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   int sum = 0;
   for (int i = 1; i < argc; i++)
     sum += atoi(argv[i]);

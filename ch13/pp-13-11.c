@@ -22,46 +22,68 @@
  * For simplicity, your program should consider a punctuation mark to be
  * part of the word to which it is atached. Display the average word
  * length to one decimal place. */
-
+/* C Programming A Modern Approach
+ * pp-13-11.c
+ */
 #include <ctype.h>
+#include <stdbool.h> // bool型を使うために追加
 #include <stdio.h>
 
 double compute_average_word_length(const char *sentence);
 
 int main(void)
 {
-
-    char ch;
     char sentence[80];
-    int i = 0;
+
+    int ch, i = 0;
 
     printf("Enter a sentence: ");
 
     while ((ch = getchar()) != '\n' && ch != EOF) {
-        sentence[i++] = ch;
+        if (i < 79) {
+            sentence[i++] = (char)ch;
+        }
     }
     sentence[i] = '\0';
 
-    printf("Average word length: %4.1f", compute_average_word_length(sentence));
+    printf(
+        "Average word length: %.1f\n", compute_average_word_length(sentence));
 
     return 0;
 }
 
 double compute_average_word_length(const char *sentence)
+
 {
-    float sum_words = 1.0f; // last word dows not have space, so add 1.
-    float length = 0.0f;
+    double total_length = 0;
+    int word_count = 0;
+
+    bool in_word = false; // 今、単語の中にいるかどうかのフラグ
     const char *p = sentence;
 
     while (*p) {
         if (isspace(*p)) {
-            sum_words++;
+
+            // 空白を見つけたら「単語の外」に出た印
+            in_word = false;
         } else {
-            length++;
+            // 文字を見つけたとき
+            total_length++;
+            if (!in_word) {
+
+                // まだ単語の中にいない状態から文字を見つけたなら、
+                // それは新しい「単語の始まり」です
+                word_count++;
+                in_word = true;
+            }
         }
+
         p++;
     }
-    printf("words %f\n", sum_words);
-    printf("length %f\n", length);
-    return length / sum_words;
+
+    // 0除算を防ぐための安全装置
+    if (word_count == 0)
+        return 0.0;
+
+    return total_length / word_count;
 }
