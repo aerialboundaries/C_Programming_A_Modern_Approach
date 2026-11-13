@@ -48,7 +48,6 @@
  * Section 10.2 into your program. Use scanf(" %c", &ch) to read the
  * operator and operand.
  */
-
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -56,116 +55,97 @@
 
 #define MAX_STACK 100
 
-void make_empty(int *stack, int *top_ptr);
-bool is_empty(int *stack, int *top_ptr);
-bool is_full(int *stack, int *top_ptr);
-void push(int *top_ptr, char ch);
-int pop(int *top_ptr);
 void stackoverflow(void);
 void stackunderflow(void);
 
-int main(void)
+int evaluate_RPN_expression(const char *expression)
 {
   int stack[MAX_STACK];
   int *top_ptr = stack;
-  char ch;
   int o1, o2;
 
-  for (;;) {
-    printf("Enter an RPN expression: ");
-    make_empty(stack, top_ptr);
+  while (*expression != '\0') {
+    char ch = *expression++;
 
-    while (scanf(" %c", &ch)) {
+    if (isspace((unsigned char)ch)) {
+      continue;
+    }
+
+    if (isdigit((unsigned char)ch)) {
+      if (top_ptr == stack + MAX_STACK) {
+        stackoverflow();
+      }
+
+      *top_ptr++ = ch - '0';
+    } else {
+      if (top_ptr - stack < 2) {
+        stackunderflow();
+      }
+
+      o1 = *--top_ptr;
+      o2 = *--top_ptr;
 
       switch (ch) {
       case '+':
-        o1 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
-        }
-        o2 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
-        }
-        push(top_ptr++, o2 + o1);
+        *top_ptr++ = o2 + o1;
         break;
       case '-':
-        o1 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
-        }
-        o2 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
-        }
-        push(top_ptr++, o2 - o1);
+        *top_ptr++ = o2 - o1;
         break;
       case '*':
-        o1 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
-        }
-        o2 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
-        }
-        push(top_ptr++, o2 * o1);
+        *top_ptr++ = o2 * o1;
         break;
       case '/':
-        o1 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
+        if (o1 == 0) {
+          fprintf(stderr, "division by zero\n");
+          exit(EXIT_FAILURE);
         }
-        o2 = pop(--top_ptr);
-        if (is_empty(stack, top_ptr)) {
-          stackunderflow();
-        }
-        push(top_ptr++, o2 / o1);
-        break;
-      case '=':
+        *top_ptr++ = o2 / o1;
         break;
       default:
-        if (isdigit(ch)) {
-          if (is_full(stack, top_ptr)) {
-            stackoverflow();
-          }
-          push(top_ptr++, ch - '0');
-          break;
-        } else
-          exit(EXIT_SUCCESS);
-      }
-
-      if (ch == '=') {
-        printf("%d\n", pop(--top_ptr));
-        break;
+        fprintf(stderr, "invalid expression\n");
+        exit(EXIT_FAILURE);
       }
     }
+  }
+
+  if (top_ptr - stack != 1) {
+    fprintf(stderr, "invalid expression\n");
+    exit(EXIT_FAILURE);
+  }
+
+  return *--top_ptr;
+}
+
+int main(void)
+{
+  char expression[256];
+
+  for (;;) {
+    printf("Enter an RPN expression: ");
+
+    if (fgets(expression, sizeof(expression), stdin) == NULL) {
+      break;
+    }
+
+    if (expression[0] == 'q') {
+      break;
+    }
+
+    printf("Value of expression: %d\n", evaluate_RPN_expression(expression));
   }
 
   return 0;
 }
 
-void make_empty(int stack[], int *top_ptr) { top_ptr = stack; }
-
-bool is_empty(int stack[], int *top_ptr) { return (top_ptr < stack); }
-
-bool is_full(int stack[], int *top_ptr)
-{
-  return (top_ptr == stack + MAX_STACK);
-}
-
-void push(int *top_ptr, char ch) { *top_ptr++ = ch; }
-
-int pop(int *top_ptr) { return *top_ptr; }
-
 void stackoverflow(void)
 {
-  fprintf(stderr, "stack overflow\n");
+  fprintf(stderr, "Expression is too complex\n");
   exit(EXIT_FAILURE);
 }
 
 void stackunderflow(void)
 {
-  fprintf(stderr, "stack underflow\n");
+  fprintf(stderr, "Not enough operands in expression\n");
   exit(EXIT_FAILURE);
 }
