@@ -1,6 +1,6 @@
 /* C_Programming_A_Modern_Approach
  * ex-17-03.c
- * 2026-04-23
+ * 2026-04-23, 2026-11-24
  *
  * Write the following function:
  * int *create_array(int n, int initial_value);
@@ -11,25 +11,33 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
-/****************************** My Answer ************************************/
 
 int *create_array(int n, int initial_value)
 {
-    int *p = malloc(n * sizeof(int));
-    if (p == NULL)
-        return NULL;
+  int *arr = malloc(sizeof(int) * n);
+  if (arr == NULL) {
+    fprintf(stderr, "Error: Failed to allocate %zu bytes memory\n",
+            sizeof(int) * n);
+    return NULL;
+  }
 
-    for (int i = 0; i < n; i++) {
-        p[i] = initial_value;
-    }
-    return p;
+  for (int i = 0; i < n; i++) {
+    arr[i] = initial_value;
+  }
+
+  return arr;
 }
-
-/*****************************************************************************/
 
 int main(void)
 {
-    return 0;
+  int *array;
+  array = create_array(5, 30);
+  for (int i = 0; i < 5; i++) {
+    printf("%d", array[i]);
+  }
+  printf("\n");
+
+  free(array);
+
+  return 0;
 }
