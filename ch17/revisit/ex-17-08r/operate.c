@@ -35,13 +35,3 @@ void divi(void)
   }
   push(b / a);
 }
-
-void eq(Stack *top) { printf("%d\n", top->content); }
-
-void other(void)
-{
-  fprintf(stderr, "not a command. exiting.\n");
-  exit(EXIT_FAILURE);
-}
-
-int (*operation[])(int a, int b) = { plus, minus, multi, divi };

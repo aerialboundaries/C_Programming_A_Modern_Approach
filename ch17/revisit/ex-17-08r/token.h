@@ -1,8 +1,11 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-enum token { PLUS, MINUS, MULTI, DIV, EQ, OTHER, MAX };
+#define BUFFER 128
 
-int parse_input(char ch);
+enum token { PLUS, MINUS, MULTI, DIV };
+
+void input(void);
+void parse_input(char ch);
 
 #endif /* TOKEN_H */

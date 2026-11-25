@@ -3,7 +3,7 @@
 
 #include "stack.h"
 
-Stack *top;
+Stack *top = NULL;
 
 void make_empty(void)
 {
@@ -29,14 +29,14 @@ void push(int i)
 
 int pop(void)
 {
-  if (!is_empty()) {
+  if (is_empty()) {
     fprintf(stderr, "Error: popped with empty stack.\n");
     exit(EXIT_FAILURE);
   }
 
   Stack *old_top = top;
   int value = old_top->content;
-  top = old_top;
+  top = old_top->next;
   free(old_top);
 
   return value;
