@@ -1,23 +1,26 @@
 # まずすべて無視
 *
 
-# .c と .h は無視しない
+# サブディレクトリを辿れるようにする
+!*/
+!**/
+
+# ソース・ヘッダ・ビルド定義・ドキュメント・設定ファイル
 !*.c
 !*.h
-
-# Makefile も無視しない
 !Makefile
-
-# サブディレクトリも対象にする場合
-!*/
-
-# .gitignore
-!*.gitignore
-
-# .txt .mdも無視しない
+!CMakeLists.txt
 !*.txt
 !*.md
-
-# clang-format も無視しない
 !.clang-format
+!.gitignore
+!*.sh
 
+# ビルド成果物・一時ファイルは明示的に無視
+build/
+build-*/
+*.o
+*.a
+*.so
+*.out
+compile_commands.json
