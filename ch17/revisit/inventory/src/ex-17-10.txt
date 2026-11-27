@@ -1,0 +1,2 @@
+Modify the print_part function of Section 16.2 so that its parameter is a point
+er to a part structure. Use the -> operator in your answer.

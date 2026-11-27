@@ -1,41 +1,43 @@
 CC := gcc
-SRC_DIR := ./src
-OBJ_DIR := ./obj
+CPPFLAGS := -I.
+CFLAGS = -Wall -Wextra -std=c99 -pedantic-errors -MMD -MP
+LDLIBS :=
+
+SRC_DIR := src
+BUILD_DIR := build
 
 SRCS := $(wildcard $(SRC_DIR)/*.c)
-OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-DEPS := $(OBJS: .o = .d)
+OBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
+DEPS := $(OBJS:.o=.d)
 
-CPPFLAGS := -I. -I./include
-CFLAGS := -Wall -Wextra -std=c99 -Wpedantic -MMD -MP
-LDFLAGS :=
-TARGET := inventory
+TARGET := $(BUILD_DIR)/inventory
 
-.PHONY: all clean fclean re run debug
+.PHONY: all run clean fclean re debug
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
--include $(DEPS)
-
-clean:
-	rm -rm $(OBJ_DIR)
-
-fclean: clean
-	rm -f $(TARGET)
-
-re: fclean all
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
 run: $(TARGET)
 	./$(TARGET)
 
+clean:
+	rm -f $(OBJS) $(DEPS)
+
+fclean:
+	rm -rf $(BUILD_DIR)
+
+re: fclean all
+
 debug: CFLAGS += -g -O0
+
 debug: re
 
-
+-include $(DEPS)
